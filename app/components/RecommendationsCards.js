@@ -1,39 +1,51 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Right } from "native-base";
 import StarRating from "react-native-star-rating";
 
 import images from "../assets/img/image";
 // create a component
 class RecommendationsCards extends Component {
+
+    state={
+        modalState: true
+    }
+    
+    onSelectHandler=()=>{
+        this.props.getTheProductDetails(this.props,this.state.modalState);
+    }
+
     render() {
         return (
-            <CardItem>
-                <View>
-                    <Image 
-                        style={styles.imageStyle}
-                        source={this.props.imageUri}/>
-                </View>
-                <Right
-                    style={styles.rightStyle}>
-                    <Text>{this.props.itemName}</Text>
-                    <Text style={styles.itemCreator}>{this.props.itemCreator}</Text>
-                    <Text style={styles.itemPrice}>{this.props.itemPrice}</Text>
-                    <Text >
-                        <Text style={styles.youSave}>You save</Text>
-                        <Text> ${this.props.savings}</Text>
-                    </Text>
-                    <StarRating
-                        disabled={true}
-                        maxStars={5}
-                        rating={this.props.rating}
-                        starSize={12}
-                        fullStarColor="orange"
-                        emptyStarColor="orange"
-                    />
-                </Right>
-            </CardItem>
+            <TouchableOpacity
+                onPress={this.onSelectHandler}>
+                <CardItem>
+                    <View>
+                        <Image 
+                            style={styles.imageStyle}
+                            source={this.props.imageUri}/>
+                    </View>
+                    <Right
+                        style={styles.rightStyle}>
+                        <Text>{this.props.itemName}</Text>
+                        <Text style={styles.itemCreator}>{this.props.itemCreator}</Text>
+                        <Text style={styles.itemPrice}>{this.props.itemPrice}</Text>
+                        <Text >
+                            <Text style={styles.youSave}>You save</Text>
+                            <Text> ${this.props.savings}</Text>
+                        </Text>
+                        <StarRating
+                            disabled={true}
+                            maxStars={5}
+                            rating={this.props.rating}
+                            starSize={12}
+                            fullStarColor="orange"
+                            emptyStarColor="orange"
+                        />
+                    </Right>
+                </CardItem>
+            </TouchableOpacity>
         );
     }
 }
