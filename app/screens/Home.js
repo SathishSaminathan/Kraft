@@ -1,22 +1,175 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
-import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem } from "native-base";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHighlight, Modal } from 'react-native';
+import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem, Button } from "native-base";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
 
 import RecommendationsCards from "../components/RecommendationsCards";
 import images from "../assets/img/image";
-// import {  } from "";
+import customStyles from "../assets/styles/styles";
+
 // create a component
 class Home extends Component {
 
-    componentDidMount(){
-        // this.props.navigation.openDrawer();
+    constructor(props){
+        super(props);
+        this.state = {
+            modalVisible: false,
+            selectedProduct:[
+                {
+                    itemName:"",
+                    itemCreator:"",
+                    itemPrice:"",
+                    savings:"",
+                    imageUri:null,
+                    rating:null,
+                    index:null
+                }
+            ],
+            product:[
+            {
+                itemName:"Bangles",
+                itemCreator:"Sachu",
+                itemPrice:"20",
+                savings:"2.5",
+                imageUri:require("../assets/img/jewelry_1.png"),
+                rating:5,
+                index:null
+            },
+            {
+                itemName:"Bangles sachu",
+                itemCreator:"Sachu",
+                itemPrice:"20",
+                savings:"2.5",
+                imageUri:require("../assets/img/jewelry_2.png"),
+                rating:5,
+                index:null
+            },
+            {
+                itemName:"Bangles",
+                itemCreator:"Sachu",
+                itemPrice:"20",
+                savings:"2.5",
+                imageUri:require("../assets/img/jewelry_3.png"),
+                rating:5,
+                index:null
+            },
+            {
+                itemName:"Bangles",
+                itemCreator:"Sachu",
+                itemPrice:"20",
+                savings:"2.5",
+                imageUri:require("../assets/img/jewelry_4.png"),
+                rating:5,
+                index:null
+            },
+            {
+                itemName:"Bangles",
+                itemCreator:"Sachu",
+                itemPrice:"20",
+                savings:"2.5",
+                imageUri:require("../assets/img/jewelry_5.png"),
+                rating:5,
+                index:null
+            },
+            {
+                itemName:"Bangles",
+                itemCreator:"Sachu",
+                itemPrice:"20",
+                savings:"2.5",
+                imageUri:require("../assets/img/jewelry_6.png"),
+                rating:5,
+                index:null
+            },
+        ]
+        };
+    }    
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
     }
+
+    productDetails=(productDetail,modalState)=>{
+        this.setState({
+            modalVisible:modalState,
+            selectedProduct:{
+                itemName:productDetail.itemName,
+                itemCreator:productDetail.itemCreator,
+                itemPrice:productDetail.itemPrice,
+                savings:productDetail.savings,
+                imageUri:productDetail.imageUri,
+                rating:productDetail.rating,
+                key:productDetail.index
+            }
+        })
+    }
+
     render() {
         return (
             <Container>
+                 <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(!this.state.modalVisible);
+                    }}>
+                    <Container>
+                        <Header style={styles.modalHeaderStyle}>
+                            <Left style={{flexDirection:"row",flex:0.5}}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                    this.setModalVisible(!this.state.modalVisible);
+                                    }}>
+                                    <Icon style={{marginRight:10, color:"white", fontSize:50}} name="ios-close"/>
+                                </TouchableOpacity>
+                            </Left>
+                            <View style={styles.modalHeaderTextArea}>
+                                <Text style={styles.modalHeaderText}>Product Details</Text>
+                            </View>
+                            {/* <Right style={{flex:0.5}}>
+                                <Icon style={styles.iconStyle} name="md-cart"/>
+                            </Right> */}
+                        </Header>
+                        <Content>
+                            <View style={styles.modalImageArea}>
+                                <Image source={this.state.selectedProduct.imageUri} style={styles.modalImageStyle}/>
+                            </View>
+                            <Card>
+                                <CardItem>
+                                    <View>
+                                    <Text style={{color:"red"}}>&#8377;
+                                        <Text style={[{fontWeight:"300"},customStyles.xxLarge,customStyles.primaryColor]}>{this.state.selectedProduct.itemPrice}</Text>
+                                    </Text>
+                                    <Text style={{color:"green", fontSize:20}}>
+                                        In Stock
+                                    </Text>
+                                    </View>  
+                                </CardItem>  
+
+                                <CardItem style={{marginTop:30, borderTopWidth:1}}>
+                                    <Left>
+                                        <Text style={{color:"red"}}>&#8377;
+                                            <Text style={[{fontWeight:"300"},customStyles.xLarge,customStyles.primaryColor]}>{this.state.selectedProduct.itemPrice}</Text>
+                                        </Text>
+                                    </Left>  
+                                </CardItem>
+
+                            </Card>
+                        </Content>
+                    </Container>
+                        <TouchableOpacity>
+                            <Text style={customStyles.successButton}>CLICK TO BUY</Text>
+                        </TouchableOpacity>
+                        {/* <View style={{flex:1, backgroundColor:"red"}}> */}
+                        {/* <Button 
+                           title="Learn More"
+                           color="#841584"
+                           style={{width:"100%"}}
+                        /> */}
+                        {/* </View> */}
+                </Modal>
                 <Header style={styles.headerStyle}>
                     <Left style={{flexDirection:"row"}}>
                         <Icon style={{marginRight:10, color:"white"}} name="md-menu" onPress={()=>this.props.navigation.openDrawer()}/>
@@ -81,13 +234,7 @@ class Home extends Component {
                         <View 
                             style={{flex:1}}>
                              <Image 
-                                source={require("../assets/img/swiper_1.jpg")}
-                                style={{flex:1,height:null,width:null,resizeMode:"contain"}}/>
-                        </View>
-                        <View 
-                            style={{flex:1}}>
-                             <Image 
-                                source={require("../assets/img/swiper_1.jpg")}
+                                source={require("../assets/img/swiper_2.jpg")}
                                 style={{flex:1,height:null,width:null,resizeMode:"contain"}}/>
                         </View>
                     </Swiper>
@@ -96,15 +243,29 @@ class Home extends Component {
                             style={styles.cardItemStyle}>
                             <Text>Your Recommendations</Text>
                         </CardItem>
-                        <RecommendationsCards
+                        {/* <RecommendationsCards 
+                            getTheProductDetails={this.productDetails}
                             itemName="Bangles"
                             itemCreator="Sachu"
                             itemPrice="$20"
                             savings="2.5"
                             imageUri={require("../assets/img/jewelry_1.png")}
                             rating={5}
-                        />
-                         <RecommendationsCards
+                        /> */}
+                        {this.state.product.map((e, id)=>
+                            <RecommendationsCards 
+                                getTheProductDetails={this.productDetails}
+                                itemName={e.itemName}
+                                itemCreator={e.itemCreator}
+                                itemPrice={e.itemPrice}
+                                savings={e.savings}
+                                imageUri={e.imageUri}
+                                rating={e.rating}
+                                key={id}
+                                index={id}
+                            />
+                        )}
+                         {/* <RecommendationsCards
                             itemName="Bangles"
                             itemCreator="Sachu"
                             itemPrice="$20"
@@ -135,7 +296,7 @@ class Home extends Component {
                             savings="2.5"
                             imageUri={require("../assets/img/jewelry_5.png")}
                             rating={5}
-                        />
+                        /> */}
                     </Card>
                 </Content>
             </Container>
@@ -191,6 +352,46 @@ const styles = StyleSheet.create({
     cardItemStyle:{
         borderBottomWidth:1,
         borderBottomColor:"#dee0e2"
+    },
+    modalImageStyle:{
+        width:200,
+        height:200
+    },
+    modalImageArea:{
+        flex:1,
+        flexDirection:"column",
+        alignItems:"center",
+        backgroundColor:"white",
+        borderBottomWidth:1,
+        borderBottomColor:"#2c3e50",
+        elevation:2
+    },
+    modalHeaderStyle:{
+        backgroundColor:"#3a455c",
+        height:90,
+        borderWidth:1,
+        borderBottomColor:"#757575"
+    },
+    modalHeaderTextArea:{
+        flex:1,
+        flexDirection:"column",
+        alignItems:"flex-start",
+        justifyContent:"space-around"
+    },
+    modalHeaderText:{
+        fontSize:20,
+        fontWeight:"bold",
+        color:"white"
+    },
+    buttonStyle:{
+        backgroundColor:"red",
+        padding:20,
+        alignSelf:"center",
+        width:"100%",
+        textAlign:"center"
+    },
+    modalSuccessButton:{
+        flex:1,   
     }
 });
 

@@ -1,0 +1,13 @@
+export const COLOR_PRIMARY = '#58C9B9';
+export const COLOR_SECONDARY = '#111';
+export const SUCCESS_COLOR ="#5cb85c";
+export const DANGER_COLOR = "#d9534f";
+export const PRIMARY_COLOR = "#2c3e50"
+export const FONT_NORMAL = 'OpenSans-Regular';
+export const FONT_BOLD = 'OpenSans-Bold';
+export const BORDER_RADIUS = 5;
+export const XXLARGE = 60;
+export const XLARGE = 40;
+export const LARGE = 30;
+export const MEDIUM = 20;
+export const SMALL = 12;
