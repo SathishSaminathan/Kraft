@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHighlight, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHighlight, Modal, StatusBar } from 'react-native';
 import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem, Button } from "native-base";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
@@ -8,9 +8,14 @@ import Swiper from "react-native-swiper";
 import RecommendationsCards from "../components/RecommendationsCards";
 import images from "../assets/img/image";
 import customStyles from "../assets/styles/styles";
+import colors from "../assets/styles/colors";
 
 // create a component
 class Home extends Component {
+
+    static navigationOptions = {
+        header:null
+    }
 
     constructor(props){
         super(props);
@@ -116,7 +121,11 @@ class Home extends Component {
                         this.setModalVisible(!this.state.modalVisible);
                     }}>
                     <Container>
-                        <Header style={styles.modalHeaderStyle}>
+                        <Header 
+                            style={styles.modalHeaderStyle}>
+                            <StatusBar 
+                            backgroundColor={colors.SUCCESS_COLOR}
+                            barStyle="light-content"/>
                             <Left style={{flexDirection:"row",flex:0.5}}>
                                 <TouchableOpacity
                                     onPress={() => {
@@ -171,6 +180,9 @@ class Home extends Component {
                         {/* </View> */}
                 </Modal>
                 <Header style={styles.headerStyle}>
+                <StatusBar 
+                    backgroundColor={colors.COLOR_PRIMARY}
+                    barStyle="light-content"/>
                     <Left style={{flexDirection:"row"}}>
                         <Icon style={{marginRight:10, color:"white"}} name="md-menu" onPress={()=>this.props.navigation.openDrawer()}/>
                         <FAIcon name="amazon" style={{color:"white", fontSize:32}}/>
@@ -313,7 +325,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2c3e50',
     },
     headerStyle:{
-        backgroundColor:"#3a455c",
+        backgroundColor:colors.COLOR_PRIMARY,
         height:90,
         borderBottomColor:"#757575"
     },
@@ -324,7 +336,7 @@ const styles = StyleSheet.create({
         position:"absolute",
         top:90,
         height:70,
-        backgroundColor:"#3a455c",
+        backgroundColor:colors.COLOR_PRIMARY,
         left:0,
         right:0,
         flexDirection:"row",
@@ -367,7 +379,7 @@ const styles = StyleSheet.create({
         elevation:2
     },
     modalHeaderStyle:{
-        backgroundColor:"#3a455c",
+        backgroundColor:colors.COLOR_PRIMARY,
         height:90,
         borderWidth:1,
         borderBottomColor:"#757575"

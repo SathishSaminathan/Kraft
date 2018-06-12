@@ -12,8 +12,20 @@ import {
   View
 } from 'react-native';
 import { YellowBox } from 'react-native';
+import { StackNavigator } from "react-navigation";
 
 import AppDrawer from "./app/components/Drawer";
+import Home from "./app/screens/Home";
+import Login from "./app/screens/Login";
+
+const KraftAppStatckNavigation = StackNavigator({
+  Login:{
+    screen: Login
+  },
+  Home:{
+    screen: Home
+  }
+})
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -29,7 +41,8 @@ export default class App extends Component {
   }
   render() {
     return (
-      <AppDrawer/>
+      // <AppDrawer/>
+      <KraftAppStatckNavigation />
     );
   }
 }

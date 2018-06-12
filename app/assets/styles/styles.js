@@ -26,6 +26,12 @@ export default StyleSheet.create({
   large:{
       fontSize:LARGE
   },
+  medium:{
+    fontSize:MEDIUM
+  },
+  small:{
+    fontSize:SMALL
+  },
   successButton:{
     backgroundColor:SUCCESS_COLOR,
     padding:20,
