@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Animated, Dimensions, Keyboard, Platform } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Animated, Dimensions, Keyboard, Platform, StatusBar } from 'react-native';
 import * as Animatable from "react-native-animatable";
 import { Icon } from "native-base";
 
@@ -33,6 +33,7 @@ class Login extends Component {
         this.keyboardHeight = new Animated.Value(0);
         this.forwardArrowOpacity = new Animated.Value(0);
         this.borderBottomWidth = new Animated.Value(0);
+        this.passwordOpactity = new Animated.Value(0);
     }
 
     keyboardDidShow =(event) =>{
@@ -56,6 +57,10 @@ class Login extends Component {
                 toValue:1
             }),
             Animated.timing(this.borderBottomWidth,{
+                duration:duration,
+                toValue:1
+            }),
+            Animated.timing(this.passwordOpactity,{
                 duration:duration,
                 toValue:1
             })
@@ -123,7 +128,7 @@ class Login extends Component {
 
         const marginTop =this.loginHeight.interpolate({
             inputRange:[150,SCREEN_HEIGHT],
-            outputRange:[25,100]
+            outputRange:[25,80]
         })
 
         const headerBackArrrowOpacity =this.loginHeight.interpolate({
@@ -148,6 +153,11 @@ class Login extends Component {
 
         return (
             <View style={styles.container}>
+                <StatusBar 
+                    backgroundColor="transparent"
+                    barStyle="dark-content"
+                    translucent
+                />
                 <Animated.View
                     style={[styles.backArrowArea,{opacity:headerBackArrrowOpacity}]}>
                     <TouchableOpacity
@@ -158,7 +168,14 @@ class Login extends Component {
 
                 <Animated.View
                     style={[styles.forwardArrowStyle,{bottom:this.keyboardHeight,opacity:this.forwardArrowOpacity}]}>
-                    <Icon name="md-arrow-forward" style={{color:"white"}}/>
+                    <TouchableOpacity
+                        onPress={()=>this.props.navigation.navigate("Home")}
+                    >
+                        <Icon 
+                            name="md-arrow-forward" 
+                            style={{color:"white"}}
+                        />
+                    </TouchableOpacity>
                 </Animated.View>
 
                 <ImageBackground 
@@ -178,6 +195,7 @@ class Login extends Component {
                     <Animatable.View
                         animation="slideInUp"
                         iterationCount={1}>
+                        
                         <Animated.View style={[styles.primaryLoginArea,{height:this.loginHeight}]}>
                             <Animated.View style={[styles.primaryLogin, {opacity: headerTextOpacity, marginTop:marginTop}]}>
                                 <Text style={{fontSize:24}}>Get Beauty with Kraft</Text>
@@ -200,8 +218,30 @@ class Login extends Component {
                                             ref="textInputEmail"
                                             style={{flex:1, fontSize:20}}
                                             placeholder={this.state.placeholder}
-                                            underlineColorAndroid="transparent"/>
-                                    </Animated.View>
+                                            underlineColorAndroid="transparent"
+                                            returnKeyType="next"
+                                            blurOnSubmit={true}
+                                            onSubmitEditing={()=>this.refs.password.focus()}
+                                        />
+                                    </Animated.View> 
+                                </Animated.View>
+                                <Animated.View style={[styles.passwordInput,{opacity:this.passwordOpactity}]}>
+                                    <Image 
+                                        style={styles.passwordImage}
+                                        source={images.passwordImage}/>
+                                    <Animated.View 
+                                        style={{flex:1, flexDirection:"row", alignItems:"center", borderBottomWidth:this.borderBottomWidth}}
+                                        pointerEvents="none">
+                                        {/* <Text style={{fontSize:20,paddingHorizontal:10}}>+91</Text> */}
+                                        <TextInput 
+                                            ref="password"
+                                            style={{flex:1, fontSize:20}}   
+                                            placeholder="enter the password"
+                                            underlineColorAndroid="transparent"
+                                            returnKeyType="done"
+                                            secureTextEntry
+                                        />
+                                    </Animated.View> 
                                 </Animated.View>
                             </TouchableOpacity>
                         </Animated.View>
@@ -261,7 +301,18 @@ const styles = StyleSheet.create({
         marginTop:25,
         alignItems:"center"
     },
+    passwordInput:{
+        marginTop:5,
+        flexDirection:"row",
+        paddingHorizontal:25,
+        alignItems:"center"
+    },
     indiaImage:{
+        width:24,
+        height:24,
+        resizeMode:"contain"
+    },
+    passwordImage:{
         width:24,
         height:24,
         resizeMode:"contain"
@@ -293,3 +344,4 @@ const styles = StyleSheet.create({
 
 //make this component available to the app
 export default Login;
+ 

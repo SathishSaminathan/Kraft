@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHighlight, Modal, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHighlight, Modal, StatusBar,ToastAndroid } from 'react-native';
 import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem, Button } from "native-base";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
@@ -9,6 +9,7 @@ import RecommendationsCards from "../components/RecommendationsCards";
 import images from "../assets/img/image";
 import customStyles from "../assets/styles/styles";
 import colors from "../assets/styles/colors";
+import SpeechAndroid from 'react-native-android-voice';
 
 // create a component
 class Home extends Component {
@@ -20,12 +21,14 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
+            searchProduct:"",
             modalVisible: false,
             selectedProduct:[
                 {
                     itemName:"",
                     itemCreator:"",
                     itemPrice:"",
+                    itemDescription:"",
                     savings:"",
                     imageUri:null,
                     rating:null,
@@ -37,6 +40,7 @@ class Home extends Component {
                 itemName:"Bangles",
                 itemCreator:"Sachu",
                 itemPrice:"20",
+                itemDescription:"",
                 savings:"2.5",
                 imageUri:require("../assets/img/jewelry_1.png"),
                 rating:5,
@@ -46,6 +50,7 @@ class Home extends Component {
                 itemName:"Bangles sachu",
                 itemCreator:"Sachu",
                 itemPrice:"20",
+                itemDescription:"",
                 savings:"2.5",
                 imageUri:require("../assets/img/jewelry_2.png"),
                 rating:5,
@@ -55,6 +60,7 @@ class Home extends Component {
                 itemName:"Bangles",
                 itemCreator:"Sachu",
                 itemPrice:"20",
+                itemDescription:"",
                 savings:"2.5",
                 imageUri:require("../assets/img/jewelry_3.png"),
                 rating:5,
@@ -64,6 +70,7 @@ class Home extends Component {
                 itemName:"Bangles",
                 itemCreator:"Sachu",
                 itemPrice:"20",
+                itemDescription:"",
                 savings:"2.5",
                 imageUri:require("../assets/img/jewelry_4.png"),
                 rating:5,
@@ -73,6 +80,7 @@ class Home extends Component {
                 itemName:"Bangles",
                 itemCreator:"Sachu",
                 itemPrice:"20",
+                itemDescription:"",
                 savings:"2.5",
                 imageUri:require("../assets/img/jewelry_5.png"),
                 rating:5,
@@ -82,6 +90,7 @@ class Home extends Component {
                 itemName:"Bangles",
                 itemCreator:"Sachu",
                 itemPrice:"20",
+                itemDescription:"",
                 savings:"2.5",
                 imageUri:require("../assets/img/jewelry_6.png"),
                 rating:5,
@@ -89,7 +98,32 @@ class Home extends Component {
             },
         ]
         };
-    }    
+    }   
+    
+    async voiceSearch(){
+        //ToastAndroid.show("inside" , ToastAndroid.LONG);
+        try{
+            //More Locales will be available upon release.
+            var spokenText = await SpeechAndroid.startSpeech("Spell Your Needs..", SpeechAndroid.DEFAULT);
+            // ToastAndroid.show(spokenText , ToastAndroid.LONG);
+            this.setState({
+                searchProduct:spokenText
+            })
+        }catch(error){
+            switch(error){
+                case SpeechAndroid.E_VOICE_CANCELLED:
+                    ToastAndroid.show("Voice Recognizer cancelled" , ToastAndroid.LONG);
+                    break;
+                case SpeechAndroid.E_NO_MATCH:
+                    ToastAndroid.show("No match for what you said" , ToastAndroid.LONG);
+                    break;
+                case SpeechAndroid.E_SERVER_ERROR:
+                    ToastAndroid.show("Google Server Error" , ToastAndroid.LONG);
+                    break;
+                /*And more errors that will be documented on Docs upon release*/
+            }
+        }
+    }
 
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
@@ -102,6 +136,7 @@ class Home extends Component {
                 itemName:productDetail.itemName,
                 itemCreator:productDetail.itemCreator,
                 itemPrice:productDetail.itemPrice,
+                itemDescription:productDetail.itemDescription,
                 savings:productDetail.savings,
                 imageUri:productDetail.imageUri,
                 rating:productDetail.rating,
@@ -180,9 +215,10 @@ class Home extends Component {
                         {/* </View> */}
                 </Modal>
                 <Header style={styles.headerStyle}>
-                <StatusBar 
-                    backgroundColor={colors.COLOR_PRIMARY}
-                    barStyle="light-content"/>
+                    <StatusBar 
+                        backgroundColor={colors.COLOR_PRIMARY}
+                        barStyle="light-content"
+                    />
                     <Left style={{flexDirection:"row"}}>
                         <Icon style={{marginRight:10, color:"white"}} name="md-menu" onPress={()=>this.props.navigation.openDrawer()}/>
                         <FAIcon name="amazon" style={{color:"white", fontSize:32}}/>
@@ -211,9 +247,20 @@ class Home extends Component {
                                 name="search"
                                 style={{fontSize:25,padding:5}} />
                             <TextInput 
-                                style={{width:"100%", fontSize:20}} 
+                                style={{ width:"75%",fontSize:20}} 
                                 underlineColorAndroid='transparent'
-                                placeholder="Search"/>
+                                placeholder="Search"
+                                onChangeText={(searchProduct)=>this.setState({searchProduct})}
+                                value={this.state.searchProduct}
+                                returnKeyType="done"
+                            />
+                            <Right>
+                                <Icon 
+                                    name="mic"
+                                    style={{fontSize:25,padding:5}} 
+                                    onPress={()=>this.voiceSearch()}
+                                />
+                            </Right>
                         </Item>
                     </View>
                 </View>

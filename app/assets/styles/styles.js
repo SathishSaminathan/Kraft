@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { XXLARGE, DANGER_COLOR, SUCCESS_COLOR, PRIMARY_COLOR, XLARGE, LARGE,MEDIUM, SMALL } from "./common";
+import { XXLARGE, DANGER_COLOR, SUCCESS_COLOR, PRIMARY_COLOR, XLARGE, LARGE,MEDIUM, SMALL, COLOR_SECONDARY } from "./common";
 
 export default StyleSheet.create({
   container: {
@@ -116,6 +116,26 @@ export default StyleSheet.create({
   },
   primaryXXLargeText:{
     color:PRIMARY_COLOR,
+    fontSize:XXLARGE
+  },
+  secondarySmallText:{
+    color:COLOR_SECONDARY,
+    fontSize:SMALL
+  },
+  secondaryMediumText:{
+    color:COLOR_SECONDARY,
+    fontSize:MEDIUM
+  },
+  secondaryLargeText:{
+    color:COLOR_SECONDARY,
+    fontSize:LARGE
+  },
+  secondaryXLargeText:{
+    color:COLOR_SECONDARY,
+    fontSize:XLARGE
+  },
+  secondaryXXLargeText:{
+    color:COLOR_SECONDARY,
     fontSize:XXLARGE
   }  
 });

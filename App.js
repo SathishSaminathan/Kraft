@@ -14,16 +14,20 @@ import {
 import { YellowBox } from 'react-native';
 import { StackNavigator } from "react-navigation";
 
-import AppDrawer from "./app/components/Drawer";
+import SideMenu from "./app/components/SideMenu";
 import Home from "./app/screens/Home";
 import Login from "./app/screens/Login";
+import UploadProducts from "./app/screens/UploadProducts";
 
 const KraftAppStatckNavigation = StackNavigator({
-  Login:{
-    screen: Login
-  },
-  Home:{
-    screen: Home
+  // Login:{
+  //   screen: Login
+  // },
+  // Home:{
+  //   screen: SideMenu
+  // },
+  UploadProducts:{
+    screen:UploadProducts
   }
 })
 
