@@ -1,11 +1,13 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, TextInput, Image } from 'react-native';
-import { Container, Content, Card, CardItem,Body, Left, Right, Footer } from "native-base";
+import { View, Text, StyleSheet, Dimensions, TextInput, Image, TouchableOpacity, ImageBackground,StatusBar,Picker } from 'react-native';
+import { Container, Content, Card, CardItem,Body, Left, Right, Footer, Header, Input, Icon } from "native-base";
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import customStyles from "../assets/styles/styles";
-import { COLOR_PRIMARY_PINK } from "../assets/styles/common";
+import { COLOR_PRIMARY_PINK, COLOR_SECONDARY } from "../assets/styles/common";
 import images from "../assets/img/image";
+import ImagePicker from "../components/ImagePicker";
 import FloatingLabelInput from "../components/FloatingLabelInput";
 
 const { width, height} = Dimensions.get("window");
@@ -22,57 +24,142 @@ class UploadProducts extends Component {
         this.state={
             productName:"",
             productPrice:"",
-            productDescription:""
+            productDescription:"",
+            catagory: undefined
         }
     }
+
+    onValueChange(value) {
+        this.setState({
+          catagory: value
+        });
+      }
 
     render() {
         return (
             <Container style={styles.container}>
-                <Content style={styles.imageUpload}>
-                    
-                </Content>
-                <Content styles={styles.productDetails}>
-                    <Card>
-                        <CardItem header style={styles.cardHeader}>
-                            <Text style={[customStyles.secondaryMediumText,{fontFamily:"vincHand"}]}>Product Details</Text>
-                        </CardItem>
-                        <CardItem style={styles.productArea}>
-                            <View style={styles.inputArea}>
-                            {/* <FloatingLabelInput
-                                label="Product Name"
-                                value={this.state.productName}
-                                onChangeText={(productName)=>{this.setState({productName})}}
-                                returnKeyType="next"
-                                onSubmitEditing={()=>this.refs.prodes.focus()}                                
-                            />
-                            <FloatingLabelInput            
-                                ref="prodes"                    
-                                label="Product Description"
-                                value={this.state.productDescription}
-                                onChangeText={(productDescription)=>{this.setState({productDescription})}}
-                                returnKeyType="done"
-                            /> */}
+                    <StatusBar 
+                        backgroundColor="transparent"
+                        barStyle="dark-content"
+                        translucent
+                    />
+                    <ImageBackground 
+                        style={{flex:1}}
+                        source={images.loginBackground}
+                    >
+                        <Content style={styles.imageUpload}>
+                            <View
+                                style={styles.imageUploadArea} 
+                            >
+                                <ImagePicker pickedImage={images.uploadIcon}/>
+                            </View>
+                        </Content>  
+                        <Content>
+                        <Card
+                            style={styles.cardStyle}    
+                        >
+                            <CardItem
+                                style={styles.cardItemStyle}
+                            >
+                                <View
+                                    style={{flexDirection:"row"}}
+                                >
+                                    <Text 
+                                        style={styles.customLabel}
+                                    > PN </Text>
+                                    <View 
+                                        style={styles.iconInput}
+                                    >
+                                        <TextInput 
+                                            style={styles.textInputStyle}
+                                            placeholder="Product Name"
+                                        />
+                                    </View>
+                                    {/* <Icon name="call"/> */}
+                                </View>
+                            </CardItem>
 
-                            </View>                            
-                        </CardItem>
-                        <CardItem footer style={styles.cardFooter}>
-                            {/* <Text style={[customStyles.primaryMediumText,{color:COLOR_PRIMARY_PINK}]}>Kraft
-                                <Text style={customStyles.successSmallText}>.inc</Text>
-                            </Text> */}
-                            <Image  
-                                style={styles.logoStyle}
-                                source={images.kraftLogo}/>
-                        </CardItem>
-                    </Card>
-                </Content>
-                <Footer 
-                    style={{backgroundColor:"white"}}
+                            <CardItem
+                                style={styles.cardItemStyle}
+                            >
+                                <View
+                                    style={{flexDirection:"row"}}
+                                >
+                                    <Text 
+                                        style={styles.customLabel}
+                                    > PD </Text>
+                                    <View 
+                                        style={styles.iconInput}
+                                    >
+                                        <TextInput 
+                                            style={styles.textInputStyle}
+                                            placeholder="Product Discription"
+                                        />
+                                    </View>
+                                    {/* <Icon name="call"/> */}
+                                </View>
+                            </CardItem>   
+
+                            <CardItem
+                                style={styles.cardItemStyle}
+                            >
+                                <View
+                                    style={{flexDirection:"row"}}
+                                >
+                                    {/* <Text 
+                                        style={styles.customLabel}
+                                    > PN </Text> */}
+                                    <FontAwesome 
+                                        style={[styles.customLabel,{padding:22,paddingLeft:25}]}
+                                        name="rupee"
+                                    />
+                                    <View 
+                                        style={styles.iconInput}
+                                    >
+                                        <TextInput 
+                                            style={styles.textInputStyle}
+                                            placeholder="Product Price"
+                                            keyboardType="numeric"
+                                        />
+                                    </View>
+                                    {/* <Icon name="call"/> */}
+                                </View>
+                            </CardItem>   
+
+                            <CardItem
+                                style={styles.cardItemStyle}
+                            >
+                                <View
+                                    style={{flexDirection:"row"}}
+                                >
+                                    <Text 
+                                        style={styles.customLabel}
+                                    > C </Text> 
+                                    <View
+                                        style={{padding:15}}
+                                    >                                     
+                                        <Picker
+                                            itemStyle={{fontSize:30}}
+                                            selectedValue={this.state.catagory}
+                                            style={{ height: 50, width: 100, color:"grey" }}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({catagory: itemValue})}>
+                                            <Picker.Item label="Bangles" value="bangle" />
+                                            <Picker.Item label="Dress" value="dress" />
+                                        </Picker>
+                                    </View>
+                                    {/* <Icon name="call"/> */}
+                                </View>
+                            </CardItem>                       
+                        </Card>
+                        </Content>              
+                    </ImageBackground>
+                <TouchableOpacity
                 >
-                    <Image  
+                    {/* <Image  
                         style={styles.logoStyle}
-                        source={images.kraftLogo}/>
-                </Footer>
+                        source={images.kraftLogo}/> */}
+                    <Text style={customStyles.successButton}>Upload Product</Text>
+                </TouchableOpacity>
             </Container>
         );
     }
@@ -81,38 +168,51 @@ class UploadProducts extends Component {
 // define your styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor:"white"
     },
     imageUpload:{
         height:height/2,
-        backgroundColor:"red"
     },
     productDetails:{
         height:height/2
     },
-    cardHeader:{
+    imageUploadArea:{
         flex:1,
-        flexDirection:"column",
-        justifyContent:"center",
-    },
-    cardFooter:{
-        flex:1,
-        flexDirection:"column",
-        justifyContent:"center",
-    },
-    productArea:{
-        flex:1
-    },
-    inputArea:{
-        flex:1,
-        flexDirection:"column"
-    },
-    input:{
-        width:width
+        alignItems:"center",
+        padding:60,
+        zIndex:1
     },
     logoStyle:{
         width:100,
         height:50   
+    },
+    cardStyle:{
+        backgroundColor:"transparent"
+    },
+    cardItemStyle:{
+        margin:10,
+        elevation:5
+    },
+    customLabel:{
+        backgroundColor:COLOR_PRIMARY_PINK,
+        color:"white",
+        width:60,
+        height:60,
+        fontSize:18,
+        borderRadius:30,
+        alignSelf:"center",
+        padding:15,
+        fontFamily:"vincHand",
+    },
+    iconInput:{
+        position:"relative"
+    },
+    textInputStyle:{
+        width:width/1.5,
+        marginLeft:10,
+        fontSize:24,
+        fontFamily:'PTM55FT'
     }
 });
 

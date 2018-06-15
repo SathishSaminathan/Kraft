@@ -13,7 +13,8 @@ const images = {
 	loginBackground: require("../img/login_bg1.jpg"),
 	indiaImage: require("../img/india.png"),
 	kraftLogo: require("../img/Kraft2.png"),
-	passwordImage: require("../img/password.png")
+	passwordImage: require("../img/password.png"),
+	uploadIcon: require("../img/UploadIcon.png")
 };
 
 //make this component available to the app
