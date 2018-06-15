@@ -16,16 +16,20 @@ import { StackNavigator } from "react-navigation";
 
 import SideMenu from "./app/components/SideMenu";
 import Home from "./app/screens/Home";
+import SignUp from "./app/screens/SignUp";
 import Login from "./app/screens/Login";
 import UploadProducts from "./app/screens/UploadProducts";
 
 const KraftAppStatckNavigation = StackNavigator({
-  // Login:{
-  //   screen: Login
-  // },
-  // Home:{
-  //   screen: SideMenu
-  // },
+  Login:{
+    screen:Login
+  },
+  SignUp:{
+    screen: SignUp
+  },
+  Home:{
+    screen: SideMenu
+  },
   UploadProducts:{
     screen:UploadProducts
   }

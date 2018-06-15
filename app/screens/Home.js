@@ -8,7 +8,8 @@ import Swiper from "react-native-swiper";
 import RecommendationsCards from "../components/RecommendationsCards";
 import images from "../assets/img/image";
 import customStyles from "../assets/styles/styles";
-import colors from "../assets/styles/colors";
+// import colors from "../assets/styles/colors";
+import colors from "../assets/styles/common";
 import SpeechAndroid from 'react-native-android-voice';
 
 // create a component
@@ -159,8 +160,10 @@ class Home extends Component {
                         <Header 
                             style={styles.modalHeaderStyle}>
                             <StatusBar 
-                            backgroundColor={colors.SUCCESS_COLOR}
-                            barStyle="light-content"/>
+                                backgroundColor="transparent"
+                                barStyle="light-content"
+                                translucent
+                            />
                             <Left style={{flexDirection:"row",flex:0.5}}>
                                 <TouchableOpacity
                                     onPress={() => {
