@@ -220,7 +220,8 @@ class Login extends Component {
                                             placeholder={this.state.placeholder}
                                             underlineColorAndroid="transparent"
                                             returnKeyType="next"
-                                            blurOnSubmit={true}
+                                            keyboardType="email-address"
+                                            blurOnSubmit={false}
                                             onSubmitEditing={()=>this.refs.password.focus()}
                                         />
                                     </Animated.View> 
