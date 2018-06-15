@@ -5,7 +5,7 @@ import { DrawerNavigator, DrawerItems } from "react-navigation";
 import { Container, Content, Header, Body, Icon } from "native-base";
 
 import images from "../assets/img/image";
-import colors from "../assets/styles/colors";
+import colors from "../assets/styles/common";
 import Home from "../screens/Home";
 import UploadProducts from "../screens/UploadProducts";
 

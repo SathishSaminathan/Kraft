@@ -1,257 +1,101 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Animated, Dimensions, Keyboard, Platform, StatusBar } from 'react-native';
-import * as Animatable from "react-native-animatable";
+import { View, Text, StyleSheet, ImageBackground, TextInput, Dimensions, TouchableOpacity,StatusBar } from 'react-native';
 import { Icon } from "native-base";
 
 import images from "../assets/img/image";
+import colors from "../assets/styles/common";
 import customStyles from "../assets/styles/styles";
-import { MEDIUM, SITE_GRAY1 } from "../assets/styles/common";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+const {width,height} = Dimensions.get("window");
 
 // create a component
 class Login extends Component {
 
     constructor(props){
-        super(props)
+        super(props);
         this.state={
-            placeholder:"Enter Your Email Address"
+            passwordShow:false
         }
     }
-
-    static navigationOptions = {
+    static navigationOptions={
         header:null
     }
-
-    componentWillMount(){
-        this.loginHeight = new Animated.Value(150);
-
-        this.keyboardWDidShow= Keyboard.addListener("keyboardDidShow", this.keyboardDidShow)
-        this.keyboardDidHide= Keyboard.addListener("keyboardDidHide", this.keyboardDidHide)
-
-        this.keyboardHeight = new Animated.Value(0);
-        this.forwardArrowOpacity = new Animated.Value(0);
-        this.borderBottomWidth = new Animated.Value(0);
-        this.passwordOpactity = new Animated.Value(0);
-    }
-
-    keyboardDidShow =(event) =>{
-
-        if(Platform.OS === "android")
-        {
-            duration=100
-        }
-        else
-        {
-            duration = event.duration
-        }
-
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight,{
-                duration:duration+100,
-                toValue: event.endCoordinates.height-(event.endCoordinates.height-20)
-            }),
-            Animated.timing(this.forwardArrowOpacity,{
-                duration:duration,
-                toValue:1
-            }),
-            Animated.timing(this.borderBottomWidth,{
-                duration:duration,
-                toValue:1
-            }),
-            Animated.timing(this.passwordOpactity,{
-                duration:duration,
-                toValue:1
-            })
-        ]).start();
-    }
-
-    keyboardDidHide =(event) =>{
-
-        if(Platform.OS === "android")
-        {
-            duration=100
-        }
-        else
-        {
-            duration = event.duration
-        }
-
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight,{
-                duration:duration+100,
-                toValue: 0
-            }),
-            Animated.timing(this.forwardArrowOpacity,{
-                duration:duration,
-                toValue:0
-            }),
-            Animated.timing(this.borderBottomWidth,{
-                duration:duration,
-                toValue:0
-            })
-        ]).start();
-    }
-
-    increaseLoginHeight =()=>{
-        this.setState({
-            placeholder:"sample@gmail.com"
-        })
-        Animated.timing(this.loginHeight,{
-            toValue:SCREEN_HEIGHT,
-            duration:500
-        }).start(()=>{
-            this.refs.textInputEmail.focus()
-        });
-        // alert("hai")
-    }
-
-    decreaseLoginHeight = () =>{
-        Keyboard.dismiss()
-        Animated.timing(this.loginHeight,{
-            toValue:150,
-            duration:500
-        }).start(()=>{
-            this.setState({
-                placeholder:"Enter Your Email Address"
-            })
-        });     
-    }
-
-    render() { 
-
-        const headerTextOpacity =this.loginHeight.interpolate({
-            inputRange:[150,SCREEN_HEIGHT],
-            outputRange:[1,0]
-        })
-
-        const marginTop =this.loginHeight.interpolate({
-            inputRange:[150,SCREEN_HEIGHT],
-            outputRange:[25,80]
-        })
-
-        const headerBackArrrowOpacity =this.loginHeight.interpolate({
-            inputRange:[150,SCREEN_HEIGHT],
-            outputRange:[0,1]
-        })
-
-        const titleLeft =this.loginHeight.interpolate({
-            inputRange:[150,SCREEN_HEIGHT],
-            outputRange:[100,25]
-        })
-
-        const titleBottom =this.loginHeight.interpolate({
-            inputRange:[150,400,SCREEN_HEIGHT],
-            outputRange:[0,0,100]
-        })
-
-        const titleOpacity =this.loginHeight.interpolate({
-            inputRange:[150,SCREEN_HEIGHT],
-            outputRange:[0,1]
-        })
-
+    render() {
         return (
-            <View style={styles.container}>
+            <ImageBackground style={styles.container}
+                source={images.loginBackground}
+            >
                 <StatusBar 
                     backgroundColor="transparent"
                     barStyle="dark-content"
-                    translucent
+                    translucent                    
                 />
-                <Animated.View
-                    style={[styles.backArrowArea,{opacity:headerBackArrrowOpacity}]}>
-                    <TouchableOpacity
-                        onPress={this.decreaseLoginHeight}>
-                        <Icon name="md-arrow-back" style={{color:"black"}}/>
-                    </TouchableOpacity>
-                </Animated.View>
-
-                <Animated.View
-                    style={[styles.forwardArrowStyle,{bottom:this.keyboardHeight,opacity:this.forwardArrowOpacity}]}>
-                    <TouchableOpacity
-                        onPress={()=>this.props.navigation.navigate("Home")}
+                <View
+                    style={styles.inputArea}
+                >
+                    <View
+                        style={styles.textArea}
                     >
-                        <Icon 
-                            name="md-arrow-forward" 
-                            style={{color:"white"}}
+                        <Icon
+                            style={styles.iconStyle}
+                            name="person"
                         />
+                        <TextInput
+                            style={styles.textBox}
+                            underlineColorAndroid="transparent"
+                            blurOnSubmit={false}
+                            returnKeyType="next"
+                            keyboardType="email-address"
+                            placeholder="enter the email"
+                            onSubmitEditing={()=>{this.refs.passwordInput.focus()}}
+                        />
+                    </View>
+                    <View
+                        style={styles.textArea}
+                    >
+                        <Icon
+                            style={styles.iconStyle}
+                            name="lock"
+                        />
+                        <TextInput
+                            ref="passwordInput"
+                            style={styles.textBox}
+                            underlineColorAndroid="transparent"
+                            secureTextEntry={this.state.passwordShow?false:true}
+                            maxLength={9}
+                            returnKeyType="done"
+                            placeholder="password"
+                        />
+                        <Icon
+                            style={styles.eyeStyle}
+                            name={this.state.passwordShow?"eye":"eye-off"}
+                            onPress={()=>{this.setState({passwordShow:!this.state.passwordShow})}}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        style={styles.loginButton}
+                    >
+                        <Text style={styles.loginText}>Login</Text>
                     </TouchableOpacity>
-                </Animated.View>
-
-                <ImageBackground 
-                    source={images.loginBackground}
-                    style={styles.imageBackground}>
-                    <Animatable.View 
-                        style={styles.logoContentArea}
-                        animation="zoomIn"
-                        iterationCount={1}>
-                        <View style={styles.logoContent}>
-                            {/* <Text style={styles.logoText}>Kraft</Text> */}
-                            <Image source={images.kraftLogo} style={{width:150,height:150}}/>
-                        </View>
-                    </Animatable.View>
-
-                    {/** Bottom Half **/}
-                    <Animatable.View
-                        animation="slideInUp"
-                        iterationCount={1}>
-                        
-                        <Animated.View style={[styles.primaryLoginArea,{height:this.loginHeight}]}>
-                            <Animated.View style={[styles.primaryLogin, {opacity: headerTextOpacity, marginTop:marginTop}]}>
-                                <Text style={{fontSize:24}}>Get Beauty with Kraft</Text>
-                            </Animated.View>                            
-                            <TouchableOpacity
-                                onPress={this.increaseLoginHeight}>
-                                <Animated.View style={[styles.loginInput,{marginTop:marginTop}]}>
-                                    <Animated.Text
-                                    style={[styles.titleText,{position:"absolute", bottom:titleBottom,left:titleLeft, opacity: titleOpacity}]}>
-                                        Enter the Email Address
-                                    </Animated.Text>
-                                    <Image 
-                                        style={styles.indiaImage}
-                                        source={images.indiaImage}/>
-                                    <Animated.View 
-                                        style={{flex:1, flexDirection:"row", alignItems:"center", borderBottomWidth:this.borderBottomWidth}}
-                                        pointerEvents="none">
-                                        {/* <Text style={{fontSize:20,paddingHorizontal:10}}>+91</Text> */}
-                                        <TextInput 
-                                            ref="textInputEmail"
-                                            style={{flex:1, fontSize:20}}
-                                            placeholder={this.state.placeholder}
-                                            underlineColorAndroid="transparent"
-                                            returnKeyType="next"
-                                            keyboardType="email-address"
-                                            blurOnSubmit={false}
-                                            onSubmitEditing={()=>this.refs.password.focus()}
-                                        />
-                                    </Animated.View> 
-                                </Animated.View>
-                                <Animated.View style={[styles.passwordInput,{opacity:this.passwordOpactity}]}>
-                                    <Image 
-                                        style={styles.passwordImage}
-                                        source={images.passwordImage}/>
-                                    <Animated.View 
-                                        style={{flex:1, flexDirection:"row", alignItems:"center", borderBottomWidth:this.borderBottomWidth}}
-                                        pointerEvents="none">
-                                        {/* <Text style={{fontSize:20,paddingHorizontal:10}}>+91</Text> */}
-                                        <TextInput 
-                                            ref="password"
-                                            style={{flex:1, fontSize:20}}   
-                                            placeholder="enter the password"
-                                            underlineColorAndroid="transparent"
-                                            returnKeyType="done"
-                                            secureTextEntry
-                                        />
-                                    </Animated.View> 
-                                </Animated.View>
-                            </TouchableOpacity>
-                        </Animated.View>
-                        <View style={styles.anotherLogin}>
-                            <Text style={{color:"#5a7fdf", fontWeight:"bold"}}>Or Login with Mobile Number </Text>
-                        </View>
-                    </Animatable.View>
-                </ImageBackground>
-            </View>
+                    <View
+                        style={styles.createAccountStyle}
+                    >
+                        <TouchableOpacity>
+                        <Text 
+                                style={[styles.createAccountTextStyle]}
+                                onPress={()=>this.props.navigation.navigate("SignUp")}
+                            >create an account
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text style={[styles.createAccountTextStyle,{color:colors.SITE_GRAY1}]}
+                            >forgot password
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ImageBackground>
         );
     }
 }
@@ -259,90 +103,72 @@ class Login extends Component {
 // define your styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    imageBackground:{
-        flex:1
-    },
-    logoContentArea:{
-        flex:1,
+        flex: 1,
+        flexDirection:"column",
         alignItems:"center",
         justifyContent:"center"
     },
-    logoContent: {
-        backgroundColor:"white",
-        width:150,
-        height:150,
-        alignItems:"center",
+    inputArea:{
+        width:width/1.1,
+        height:height/2,
         justifyContent:"center"
     },
-    logoText:{
-        fontWeight:"bold",
-        fontSize:26
-    },
-    anotherLogin:{
-        height:70,
-        backgroundColor:"white",
-        alignItems:"flex-start",
-        justifyContent:"center",
-        paddingHorizontal:25,
-        borderTopWidth:1,
-        borderTopColor:"#e8e8ec"
-    },
-    primaryLoginArea:{
-        backgroundColor:"white"
-    },
-    primaryLogin: {
-        paddingHorizontal:25,
-        alignItems:"flex-start"
-    },
-    loginInput:{
+    textArea:{
         flexDirection:"row",
-        paddingHorizontal:25,
-        marginTop:25,
-        alignItems:"center"
-    },
-    passwordInput:{
-        marginTop:5,
-        flexDirection:"row",
-        paddingHorizontal:25,
-        alignItems:"center"
-    },
-    indiaImage:{
-        width:24,
-        height:24,
-        resizeMode:"contain"
-    },
-    passwordImage:{
-        width:24,
-        height:24,
-        resizeMode:"contain"
-    },
-    backArrowArea:{
-        position:"absolute",
-        height:60,
-        width:60,
-        top:60,
-        left:25,
-        zIndex:100
-    },
-    forwardArrowStyle:{
-        position:"absolute",
-        width:60,
-        height:60,
-        borderRadius:30,
-        right:10,
-        zIndex:100,
-        backgroundColor:"#54575e",
         alignItems:"center",
-        justifyContent:"center"
+        marginLeft:5,
+        backgroundColor:colors.PINK_TRANSPARENT,
+        borderRadius:25,
+        margin:15,
+        paddingHorizontal:24,
+        // justifyContent:"space-around",
+        borderColor:colors.BUTTON_PINK,
+        borderWidth:1
     },
-    titleText:{
-        fontSize:MEDIUM,
-        color:SITE_GRAY1
+    iconStyle:{
+        color:colors.SITE_GRAY1,
+        width:"10%"
+    },
+    textBox:{
+        // backgroundColor:"white",
+        color:"white",
+        fontSize:colors.SMALL,
+        width:"80%",
+        marginHorizontal:5
+    },
+    loginButton:{
+        marginLeft:5,
+        backgroundColor:colors.BUTTON_PINK,
+        borderRadius:25,
+        margin:15,
+        paddingHorizontal:24,
+    },
+    loginText:{
+        fontSize:colors.MEDIUM,
+        color:"white",
+        textAlign:"center",
+        padding:10,
+        fontFamily:"vincHand"
+    },
+    eyeStyle:{
+        width:"10%",
+        color:colors.SITE_GRAY1
+    },
+    createAccountStyle:{
+        // backgroundColor:"red",
+        flexDirection:"row",
+        paddingHorizontal:3,
+        margin:15,
+        justifyContent:"space-between"
+    },
+    createAccountTextStyle:{
+        fontSize:colors.MEDIUM,
+        color:"white",
+        fontFamily:"vincHand",
+        borderBottomWidth:1,
+        borderColor:colors.BUTTON_PINK
     }
 });
 
 //make this component available to the app
 export default Login;
- 
