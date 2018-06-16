@@ -7,6 +7,8 @@ import images from "../assets/img/image";
 import Loader from "../components/Loader";
 import colors from "../assets/styles/common";
 import customStyles from "../assets/styles/styles";
+import { connect } from "react-redux";
+import {login } from "../store/actions";
 
 const {width,height} = Dimensions.get("window");
 
@@ -17,17 +19,23 @@ class Login extends Component {
         super(props);
         this.state={
             passwordShow:false,
-            loader:true
+            email:"",
+            password:"",
+            loader:false
         }
     }
     static navigationOptions={
         header:null
     }
 
-    componentDidMount(){
+    loginHandler=(userFirstName)=>{
+        this.refs.emailInput.blur();
+        this.refs.passwordInput.blur();
         this.setState({
-            loader:false
+            loader:true
         })
+        this.props.loginAction(userFirstName);
+        this.props.navigation.navigate("Home")
     }
 
     render() {
@@ -51,7 +59,9 @@ class Login extends Component {
                             name="person"
                         />
                         <TextInput
+                            ref="emailInput"
                             style={styles.textBox}
+                            onChangeText={(email)=>{this.setState({email})}}
                             underlineColorAndroid="transparent"
                             blurOnSubmit={false}
                             returnKeyType="next"
@@ -73,6 +83,7 @@ class Login extends Component {
                             underlineColorAndroid="transparent"
                             secureTextEntry={this.state.passwordShow?false:true}
                             maxLength={9}
+                            // value={this.props.userFirstNames}
                             returnKeyType="done"
                             placeholder="password"
                         />
@@ -84,6 +95,7 @@ class Login extends Component {
                     </View>
                     <TouchableOpacity
                         style={styles.loginButton}
+                        onPress={()=>{this.loginHandler(this.state.email)}}
                     >
                         <Text style={styles.loginText}>Login</Text>
                     </TouchableOpacity>
@@ -102,7 +114,13 @@ class Login extends Component {
                             >forgot password
                             </Text>
                         </TouchableOpacity>
-                    </View>
+                    </View>                    
+                    <TouchableOpacity
+                        style={styles.skipButton}
+                        onPress={()=>{this.props.navigation.navigate("Home");this.setState({loader:true})}}
+                    >
+                        <Text style={styles.SkipText}>Skip to Home</Text>
+                    </TouchableOpacity>
                 </View>               
                 {this.state.loader && <Loader />}
             </ImageBackground>
@@ -160,6 +178,20 @@ const styles = StyleSheet.create({
         padding:10,
         fontFamily:"vincHand"
     },
+    skipButton:{
+        marginLeft:5,
+        backgroundColor:colors.BUTTON_PINK,
+        borderRadius:25,
+        width:"50%",
+        alignSelf:"center"
+    },
+    SkipText:{
+        fontSize:colors.LARGE,
+        color:"white",
+        textAlign:"center",
+        padding:5,
+        fontFamily:"vincHand"
+    },
     eyeStyle:{
         width:"10%",
         color:colors.SITE_GRAY1
@@ -180,5 +212,17 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = (state) => {
+    return {
+        userFirstNames:state.logIn.userFirstName,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+return{
+        loginAction: (userFirstName) => dispatch(login(userFirstName))
+    };
+};
+
 //make this component available to the app
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
