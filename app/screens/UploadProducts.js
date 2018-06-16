@@ -5,7 +5,7 @@ import { Container, Content, Card, CardItem,Body, Left, Right, Footer, Header, I
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import customStyles from "../assets/styles/styles";
-import { COLOR_PRIMARY_PINK, COLOR_SECONDARY } from "../assets/styles/common";
+import colorFonts from "../assets/styles/common";
 import images from "../assets/img/image";
 import ImagePicker from "../components/ImagePicker";
 import FloatingLabelInput from "../components/FloatingLabelInput";
@@ -39,8 +39,9 @@ class UploadProducts extends Component {
         return (
             <Container style={styles.container}>
                     <StatusBar 
-                        backgroundColor="transparent"
-                        barStyle="dark-content"
+                        backgroundColor={colorFonts.COLOR_PRIMARY_PINK_BACKGROUND}
+                        barStyle="light-content"
+                        translucent={false}
                     />
                     <ImageBackground 
                         style={{flex:1}}
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
         elevation:5
     },
     customLabel:{
-        backgroundColor:COLOR_PRIMARY_PINK,
+        backgroundColor:colorFonts.COLOR_PRIMARY_PINK,
         color:"white",
         width:60,
         height:60,

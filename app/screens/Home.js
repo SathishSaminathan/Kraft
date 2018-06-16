@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHi
 import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem, Button } from "native-base";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
+import { connect } from "react-redux";
 
 import RecommendationsCards from "../components/RecommendationsCards";
 import Loader from "../components/Loader";
@@ -280,7 +281,7 @@ class Home extends Component {
                         style={{backgroundColor:"white",paddingHorizontal:5, justifyContent:"space-between",alignItems:"center",flexDirection:"row",height:50}}>
                         <Text 
                             style={{fontSize:18}}
-                            >Hello, Sathish</Text>
+                            >Hello, {this.props.userFirstNames}</Text>
                         <View 
                             style={{flexDirection:"row"}}>
                             <Text
@@ -465,5 +466,18 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = (state) => {
+    return {
+        userFirstNames:state.logIn.userFirstName
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return{
+    signUpFun: (userFirstName) => dispatch(signUp(userFirstName))
+  };
+};
+
+
 //make this component available to the app
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

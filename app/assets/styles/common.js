@@ -5,7 +5,7 @@ export const COLOR_PRIMARY = '#ff1e8ff5';//pink
 // export const COLOR_PRIMARY = '#008388';//blue
 export const COLOR_SECONDARY = '#58C9B9';
 export const COLOR_PRIMARY_PINK = "#fc6c8f";
-export const PINK_TRANSPARENT= "#ea87b96b";
+// export const PINK_TRANSPARENT= "#ea87b96b";
 export const BUTTON_PINK= "#ff1e8ff5";
 export const SUCCESS_COLOR ="#5cb85c";
 export const DANGER_COLOR = "#d9534f";
@@ -21,7 +21,8 @@ export const MEDIUM = 24;
 export const SMALL = 12;
 
 export default { 
-    COLOR_PRIMARY : '#ff1e8ff5',//pink
+    // COLOR_PRIMARY : '#ff1e8ff5',// dark-pink
+    COLOR_PRIMARY : '#ff265bba',//light-pink
     COLOR_PRIMARY_BLUE : '#008388',//blue
     COLOR_SECONDARY : '#58C9B9',
     COLOR_PRIMARY_PINK : "#fc6c8f",
