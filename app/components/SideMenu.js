@@ -24,7 +24,9 @@ const CustomDrawerContent =(props)=>(
             </Body>
         </Header>
         <Content>
-            <DrawerItems {...props}/>
+            <DrawerItems              
+                {...props}
+            />
         </Content>
     </Container>
 )

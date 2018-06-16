@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, ImageBackground, TextInput, Dimensions, Touchab
 import { Icon } from "native-base";
 
 import images from "../assets/img/image";
+import Loader from "../components/Loader";
 import colors from "../assets/styles/common";
 import customStyles from "../assets/styles/styles";
 
@@ -15,12 +16,20 @@ class Login extends Component {
     constructor(props){
         super(props);
         this.state={
-            passwordShow:false
+            passwordShow:false,
+            loader:true
         }
     }
     static navigationOptions={
         header:null
     }
+
+    componentDidMount(){
+        this.setState({
+            loader:false
+        })
+    }
+
     render() {
         return (
             <ImageBackground style={styles.container}
@@ -28,8 +37,8 @@ class Login extends Component {
             >
                 <StatusBar 
                     backgroundColor="transparent"
-                    barStyle="dark-content"
-                    translucent                    
+                    barStyle="dark-content" 
+                    translucent    
                 />
                 <View
                     style={styles.inputArea}
@@ -94,7 +103,8 @@ class Login extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View>               
+                {this.state.loader && <Loader />}
             </ImageBackground>
         );
     }

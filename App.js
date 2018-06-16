@@ -18,11 +18,15 @@ import SideMenu from "./app/components/SideMenu";
 import Home from "./app/screens/Home";
 import SignUp from "./app/screens/SignUp";
 import Login from "./app/screens/Login";
+import Loader from "./app/components/Loader";
 import UploadProducts from "./app/screens/UploadProducts";
 
 const KraftAppStatckNavigation = StackNavigator({
   Login:{
     screen:Login
+  },
+  Loader:{
+    screen:Loader
   },
   SignUp:{
     screen: SignUp

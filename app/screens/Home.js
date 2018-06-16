@@ -6,9 +6,9 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
 
 import RecommendationsCards from "../components/RecommendationsCards";
+import Loader from "../components/Loader";
 import images from "../assets/img/image";
 import customStyles from "../assets/styles/styles";
-// import colors from "../assets/styles/colors";
 import colors from "../assets/styles/common";
 import SpeechAndroid from 'react-native-android-voice';
 
@@ -22,6 +22,7 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
+            loader:true,
             searchProduct:"",
             modalVisible: false,
             selectedProduct:[
@@ -100,6 +101,12 @@ class Home extends Component {
         ]
         };
     }   
+
+    componentDidMount(){
+        this.setState({
+            loader:false
+        })
+    }
     
     async voiceSearch(){
         //ToastAndroid.show("inside" , ToastAndroid.LONG);
@@ -160,9 +167,8 @@ class Home extends Component {
                         <Header 
                             style={styles.modalHeaderStyle}>
                             <StatusBar 
-                                backgroundColor="transparent"
+                                backgroundColor={colors.COLOR_PRIMARY_PINK}
                                 barStyle="light-content"
-                                translucent
                             />
                             <Left style={{flexDirection:"row",flex:0.5}}>
                                 <TouchableOpacity
@@ -221,6 +227,7 @@ class Home extends Component {
                     <StatusBar 
                         backgroundColor={colors.COLOR_PRIMARY}
                         barStyle="light-content"
+                        translucent={false}
                     />
                     <Left style={{flexDirection:"row"}}>
                         <Icon style={{marginRight:10, color:"white"}} name="md-menu" onPress={()=>this.props.navigation.openDrawer()}/>
@@ -361,6 +368,7 @@ class Home extends Component {
                         /> */}
                     </Card>
                 </Content>
+                {this.state.loader && <Loader />}
             </Container>
         );
     }
