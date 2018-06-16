@@ -14,7 +14,9 @@ const images = {
 	indiaImage: require("../img/india.png"),
 	kraftLogo: require("../img/Kraft2.png"),
 	passwordImage: require("../img/password.png"),
-	uploadIcon: require("../img/UploadIcon.png")
+	uploadIcon: require("../img/UploadIcon.png"),
+	loaderImg: require("../img/loader.png"),
+	loadingGif: require("../img/loadingGif.gif")
 };
 
 //make this component available to the app

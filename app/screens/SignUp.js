@@ -5,6 +5,7 @@ import * as Animatable from "react-native-animatable";
 import { Icon } from "native-base";
 
 import images from "../assets/img/image";
+import Loader from "../components/Loader";
 import customStyles from "../assets/styles/styles";
 import colorsFonts from "../assets/styles/common";
 
@@ -16,6 +17,7 @@ class SignUp extends Component {
     constructor(props){
         super(props)
         this.state={
+            loader:true,
             placeholder:"Enter Your Email Address"
         }
     }
@@ -34,6 +36,12 @@ class SignUp extends Component {
         this.forwardArrowOpacity = new Animated.Value(1);
         this.borderBottomWidth = new Animated.Value(0);
         this.passwordOpactity = new Animated.Value(0);
+    }
+
+    componentDidMount(){
+        this.setState({
+            loader:false
+        })
     }
 
     keyboardDidShow =(event) =>{
@@ -156,7 +164,6 @@ class SignUp extends Component {
                 <StatusBar 
                     backgroundColor="transparent"
                     barStyle="dark-content"
-                    translucent
                 />
                 <Animated.View
                     style={[styles.backArrowArea,{opacity:headerBackArrrowOpacity}]}>
@@ -267,6 +274,7 @@ class SignUp extends Component {
                                 <Text style={{color:"#5a7fdf", fontWeight:"bold"}}>Or </Text>
                             </View>
                             <TouchableOpacity
+                                onPress={()=>{this.props.navigation.navigate("Login")}}
                                 style={[styles.anotherLoginButton,{backgroundColor:colorsFonts.COLOR_PRIMARY}]}
                             >
                                 <Icon 
@@ -276,7 +284,8 @@ class SignUp extends Component {
                             </TouchableOpacity>
                         </View>
                     </Animatable.View>
-                </ImageBackground>
+                </ImageBackground>                
+                {this.state.loader && <Loader />}
             </View>
         );
     }

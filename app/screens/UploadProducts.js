@@ -41,7 +41,6 @@ class UploadProducts extends Component {
                     <StatusBar 
                         backgroundColor="transparent"
                         barStyle="dark-content"
-                        translucent
                     />
                     <ImageBackground 
                         style={{flex:1}}

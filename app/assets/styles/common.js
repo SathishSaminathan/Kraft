@@ -25,6 +25,7 @@ export default {
     COLOR_PRIMARY_BLUE : '#008388',//blue
     COLOR_SECONDARY : '#58C9B9',
     COLOR_PRIMARY_PINK : "#fc6c8f",
+    COLOR_PRIMARY_PINK_BACKGROUND : "#b11339c2",
     PINK_TRANSPARENT: "#ea87b96b",
     BUTTON_PINK:"#ff1e8ff5",
     SUCCESS_COLOR :"#5cb85c",
