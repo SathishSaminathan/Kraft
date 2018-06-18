@@ -22,18 +22,18 @@ import Loader from "./app/components/Loader";
 import UploadProducts from "./app/screens/UploadProducts";
 
 const KraftAppStatckNavigation = StackNavigator({
-  Login:{
-    screen:Login
-  },
-  Loader:{
-    screen:Loader
-  },
-  SignUp:{
-    screen: SignUp
-  },
-  Home:{
-    screen: SideMenu
-  },
+  // Login:{
+  //   screen:Login
+  // },
+  // Loader:{
+  //   screen:Loader
+  // },
+  // SignUp:{
+  //   screen: SignUp
+  // },
+  // Home:{
+  //   screen: SideMenu
+  // },
   UploadProducts:{
     screen:UploadProducts
   }

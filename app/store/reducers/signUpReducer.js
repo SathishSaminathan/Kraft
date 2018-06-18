@@ -1,11 +1,13 @@
-import { SIGN_UP,LOGIN,LOGOUT, ADDIMAGE } from "../actions/actionTypes";
+import { SIGN_UP,LOGIN,LOGOUT, ADDIMAGE, UPLOAD_PRODUCT } from "../actions/actionTypes";
 import images from "../../assets/img/image";
 
 const initialState = {
     loggedIn: false,
     userFirstName:"Guest",
     userLastName:"Saminathan",
-    profileImage:images.drawerImage
+    profileImage:images.drawerImage,
+    productName:"",
+    productImage:images.uploadIcon
 }
 
 const reducer = (state = initialState, action) => {
@@ -15,14 +17,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 userFirstName:action.userDetails
             }
-        return;
+        break;
         case LOGIN:
             return{
                 ...state,
                 userFirstName:action.userDetails
             }
-    return;
-        return;
+        break;
         case LOGOUT:
         
         return;
@@ -31,7 +32,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 profileImage:action.userImage
             }
-    
+        break;
+        case UPLOAD_PRODUCT:
+        return{
+            ...state,
+            productName:action.productName,
+            image:action.productImage.uri
+        }
         default:
             return state;
     }

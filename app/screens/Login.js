@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import colors from "../assets/styles/common";
 import customStyles from "../assets/styles/styles";
 import { connect } from "react-redux";
-import {login } from "../store/actions";
+import { login } from "../store/actions";
 
 const {width,height} = Dimensions.get("window");
 
