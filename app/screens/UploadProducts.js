@@ -2,13 +2,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, TextInput, Image, TouchableOpacity, ImageBackground,StatusBar,Picker } from 'react-native';
 import { Container, Content, Card, CardItem,Body, Left, Right, Footer, Header, Input, Icon } from "native-base";
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { connect } from "react-redux";
 
+import {uploadProduct} from "../store/actions";
 import customStyles from "../assets/styles/styles";
 import colorFonts from "../assets/styles/common";
 import images from "../assets/img/image";
 import ImagePicker from "../components/ImagePicker";
 import FloatingLabelInput from "../components/FloatingLabelInput";
+import { UPLOAD_PRODUCT } from '../store/actions/actionTypes';
 
 const { width, height} = Dimensions.get("window");
 
@@ -25,15 +28,28 @@ class UploadProducts extends Component {
             productName:"",
             productPrice:"",
             productDescription:"",
-            catagory: undefined
+            catagory: undefined,
+            productImage:{
+                value:null
+            }
         }
+    }
+
+    uploadHandler = (productName, productImage)=>{
+        this.props.uploadAction(productName, productImage);
     }
 
     onValueChange(value) {
         this.setState({
           catagory: value
         });
-      }
+    }
+
+    imagePickerHandler =(image)=>{
+        this.setState({
+            image:image
+        })
+    }
 
     render() {
         return (
@@ -51,7 +67,7 @@ class UploadProducts extends Component {
                             <View
                                 style={styles.imageUploadArea} 
                             >
-                                <ImagePicker pickedImage={images.uploadIcon}/>
+                                <ImagePicker productImage={this.props.productImage} onImagePicked={this.imagePickerHandler}/>
                             </View>
                         </Content>  
                         <Content>
@@ -73,6 +89,7 @@ class UploadProducts extends Component {
                                         <TextInput 
                                             style={styles.textInputStyle}
                                             placeholder="Product Name"
+                                            onChangeText={(productName)=>{this.setState({productName})}}
                                         />
                                     </View>
                                     {/* <Icon name="call"/> */}
@@ -154,6 +171,7 @@ class UploadProducts extends Component {
                         </Content>              
                     </ImageBackground>
                 <TouchableOpacity
+                    onPress={()=>{this.uploadHandler(this.state.productName, this.state.image)}}
                 >
                     {/* <Image  
                         style={styles.logoStyle}
@@ -216,5 +234,18 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = (state) => {
+    return {
+        userFirstNames:state.logIn.userFirstName,
+        productImage: state.logIn.productImage
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return{
+            uploadAction: (productName, productImage) => dispatch(uploadProduct(productName, productImage))
+        };
+    };
 //make this component available to the app
-export default UploadProducts;
+export default connect(mapStateToProps, mapDispatchToProps)(UploadProducts);
+

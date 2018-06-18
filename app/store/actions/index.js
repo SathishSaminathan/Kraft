@@ -1,1 +1,1 @@
-export { signUp, login, logout, addImage} from './signUpAction';
+export { signUp, login, logout, addImage, uploadProduct} from './signUpAction';

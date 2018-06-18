@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Button,ToastAndroid, TouchableOpacity } from 'react-native';
 import ImagePickers from "react-native-image-picker";
-
 import images from "../assets/img/image";
 
 // create a component
@@ -11,9 +10,15 @@ class ImagePicker extends Component {
     constructor(props){
         super(props)
         this.state={
-            pickedImage:props.pickedImage
+            pickedImages:images.uploadIcon
         }
     }
+
+     componentWillReceiveProps(nextProps){
+         this.setState({
+             productImages:nextProps.productImage
+         })
+     }
 
     pickedImageHandler=()=>{
         ImagePickers.showImagePicker({ title:"Pick an Image" },res =>{
@@ -34,8 +39,9 @@ class ImagePicker extends Component {
             }
             else{
                 this.setState({
-                    pickedImage:{uri:res.uri}
+                    pickedImages:{uri:res.uri}
                 })
+                this.props.onImagePicked({uri: res.uri, base64 : res.data})
             }
         });
     }
@@ -47,7 +53,7 @@ class ImagePicker extends Component {
             >
                 <Image
                     style={styles.imageStyle} 
-                    source={this.state.pickedImage}
+                    source={this.state.pickedImages}
                 />
             </TouchableOpacity>
             // <View style={styles.container}>
