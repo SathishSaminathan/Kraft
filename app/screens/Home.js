@@ -5,6 +5,7 @@ import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem, Bu
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
 import { connect } from "react-redux";
+import { getProduct } from "../store/actions";
 
 import RecommendationsCards from "../components/RecommendationsCards";
 import Loader from "../components/Loader";
@@ -29,7 +30,6 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            loader:true,
             searchProduct:"",
             modalVisible: false,
             selectedProduct:[
@@ -44,74 +44,80 @@ class Home extends Component {
                     index:null
                 }
             ],
-            product:[
-            {
-                itemName:"Bangles",
-                itemCreator:"Sachu",
-                itemPrice:"20",
-                itemDescription:"",
-                savings:"2.5",
-                imageUri:require("../assets/img/jewelry_1.png"),
-                rating:5,
-                index:null
-            },
-            {
-                itemName:"Bangles sachu",
-                itemCreator:"Sachu",
-                itemPrice:"20",
-                itemDescription:"",
-                savings:"2.5",
-                imageUri:require("../assets/img/jewelry_2.png"),
-                rating:5,
-                index:null
-            },
-            {
-                itemName:"Bangles",
-                itemCreator:"Sachu",
-                itemPrice:"20",
-                itemDescription:"",
-                savings:"2.5",
-                imageUri:require("../assets/img/jewelry_3.png"),
-                rating:5,
-                index:null
-            },
-            {
-                itemName:"Bangles",
-                itemCreator:"Sachu",
-                itemPrice:"20",
-                itemDescription:"",
-                savings:"2.5",
-                imageUri:require("../assets/img/jewelry_4.png"),
-                rating:5,
-                index:null
-            },
-            {
-                itemName:"Bangles",
-                itemCreator:"Sachu",
-                itemPrice:"20",
-                itemDescription:"",
-                savings:"2.5",
-                imageUri:require("../assets/img/jewelry_5.png"),
-                rating:5,
-                index:null
-            },
-            {
-                itemName:"Bangles",
-                itemCreator:"Sachu",
-                itemPrice:"20",
-                itemDescription:"",
-                savings:"2.5",
-                imageUri:require("../assets/img/jewelry_6.png"),
-                rating:5,
-                index:null
-            },
-        ]
+            // product:[
+            //     {
+            //         itemName:"Bangles",
+            //         itemCreator:"Sachu",
+            //         itemPrice:"20",
+            //         itemDescription:"",
+            //         savings:"2.5",
+            //         imageUri:require("../assets/img/jewelry_1.png"),
+            //         rating:5,
+            //         index:null
+            //     },
+            //     {
+            //         itemName:"Bangles sachu",
+            //         itemCreator:"Sachu",
+            //         itemPrice:"20",
+            //         itemDescription:"",
+            //         savings:"2.5",
+            //         imageUri:require("../assets/img/jewelry_2.png"),
+            //         rating:5,
+            //         index:null
+            //     },
+            //     {
+            //         itemName:"Bangles",
+            //         itemCreator:"Sachu",
+            //         itemPrice:"20",
+            //         itemDescription:"",
+            //         savings:"2.5",
+            //         imageUri:require("../assets/img/jewelry_3.png"),
+            //         rating:5,
+            //         index:null
+            //     },
+            //     {
+            //         itemName:"Bangles",
+            //         itemCreator:"Sachu",
+            //         itemPrice:"20",
+            //         itemDescription:"",
+            //         savings:"2.5",
+            //         imageUri:require("../assets/img/jewelry_4.png"),
+            //         rating:5,
+            //         index:null
+            //     },
+            //     {
+            //         itemName:"Bangles",
+            //         itemCreator:"Sachu",
+            //         itemPrice:"20",
+            //         itemDescription:"",
+            //         savings:"2.5",
+            //         imageUri:require("../assets/img/jewelry_5.png"),
+            //         rating:5,
+            //         index:null
+            //     },
+            //     {
+            //         itemName:"Bangles",
+            //         itemCreator:"Sachu",
+            //         itemPrice:"20",
+            //         itemDescription:"",
+            //         savings:"2.5",
+            //         imageUri:require("../assets/img/jewelry_6.png"),
+            //         rating:5,
+            //         index:null
+            //     },
+            // ],
+            product:[]
         };
     }   
 
+    
     componentDidMount(){
+        this.props.onLoadProduct();
+    }
+
+    componentWillReceiveProps(nextProps){
         this.setState({
-            loader:false
+            product: nextProps.product
         })
     }
     
@@ -194,7 +200,7 @@ class Home extends Component {
                         </Header>
                         <Content>
                             <View style={styles.modalImageArea}>
-                                <Image source={this.state.selectedProduct.imageUri} style={styles.modalImageStyle}/>
+                                <Image source={{uri:this.state.selectedProduct.imageUri}} style={styles.modalImageStyle}/>
                             </View>
                             <Card>
                                 <CardItem>
@@ -305,7 +311,9 @@ class Home extends Component {
                             style={{flex:1}}>
                             <Image 
                                 source={require("../assets/img/swiper_1.jpg")}
-                                style={{flex:1,height:null,width:null,resizeMode:"contain"}}/>
+                                style={{flex:1,height:null,width:null}}
+                                resizeMode="contain"
+                                resizeMethod="resize"/>
                         </View>
                         <View 
                             style={{flex:1}}>
@@ -328,6 +336,8 @@ class Home extends Component {
                             imageUri={require("../assets/img/jewelry_1.png")}
                             rating={5}
                         /> */}
+
+                        {/*      static values....                   
                         {this.state.product.map((e, id)=>
                             <RecommendationsCards 
                                 getTheProductDetails={this.productDetails}
@@ -340,7 +350,23 @@ class Home extends Component {
                                 key={id}
                                 index={id}
                             />
+                        )} */}
+
+                         {/* values bgetting from firebase */}
+                        {this.state.product.map((e, id)=>
+                            <RecommendationsCards 
+                                getTheProductDetails={this.productDetails}
+                                itemName={e.productName}
+                                itemCreator={"e.itemCreator"}
+                                itemPrice={e.productPrice}
+                                savings={"e.savings"}
+                                imageUri={e.image.uri}
+                                rating={3}
+                                key={id}
+                                index={id}
+                            />
                         )}
+
                          {/* <RecommendationsCards
                             itemName="Bangles"
                             itemCreator="Sachu"
@@ -375,7 +401,7 @@ class Home extends Component {
                         /> */}
                     </Card>
                 </Content>
-                {this.state.loader && <Loader />}
+                {this.props.isLoading && <Loader />}
             </Container>
         );
     }
@@ -474,13 +500,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        userFirstNames:state.logIn.userFirstName
+        userFirstNames:state.logIn.userFirstName,
+        product:state.logIn.product,
+        isLoading : state.ui.isLoading,
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return{
-    signUpFun: (userFirstName) => dispatch(signUp(userFirstName))
+    signUpFun: (userFirstName) => dispatch(signUp(userFirstName)),
+    onLoadProduct: () => dispatch(getProduct())
   };
 };
 

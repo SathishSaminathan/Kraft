@@ -3,7 +3,8 @@ import {
     LOGIN,
     LOGOUT,
     ADDIMAGE,
-    UPLOAD_PRODUCT
+    UPLOAD_PRODUCT,
+    SET_PRODUCT
 } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "../actions/index";
 
@@ -35,7 +36,7 @@ export const addImage = (pickedImage) => {
     }
 }
 
-export const uploadProduct = (productName, productImage, productDescription, productPrice, productCatagory) => {
+export const uploadProduct = (productName, productDescription, productPrice, productCatagory, productImage) => {
     // return {
     //     type: ADDIMAGE,
     //     productName: productName,
@@ -58,7 +59,10 @@ export const uploadProduct = (productName, productImage, productDescription, pro
         .then((parsedRes) => {            
             const productData = {
                 productName: productName,
-                productImage:parsedRes.imageUrl
+                productImage:parsedRes.imageUrl,
+                productDescription:productDescription,
+                productPrice:productPrice,
+                productCatagory:productCatagory
             }
             return fetch("https://kraft-4d5f3.firebaseio.com/product.json",{
                 method: "POST",
@@ -74,5 +78,40 @@ export const uploadProduct = (productName, productImage, productDescription, pro
             console.log(err);
             dispatch(uiStopLoading())
         })
+    }
+}
+
+export const getProduct = ()=>{
+    return dispatch =>{     
+        dispatch(uiStartLoading()); 
+        fetch("https://kraft-4d5f3.firebaseio.com/product.json")
+        .then(res => res.json())
+        .then(parsedRes =>{
+            const product=[];
+            for(let key in parsedRes){
+                product.push({
+                    ...parsedRes[key],
+                    id:key,
+                    image:{
+                        uri: parsedRes[key].productImage
+                    }
+                })
+                //alert(parsedRes[key].productImage)
+            }
+            dispatch(setProduct(product));  
+            dispatch(uiStopLoading())  
+        })
+        .catch(err => {
+            alert("Something Went Wrong... Please try again Later:!");
+            console.log(err);
+            dispatch(uiStopLoading())
+        })
+    }
+}
+
+export const setProduct =(product)=>{
+    return {
+        type: SET_PRODUCT,
+        product: product
     }
 }

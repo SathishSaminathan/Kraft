@@ -24,7 +24,9 @@ class RecommendationsCards extends Component {
                     <View>
                         <Image 
                             style={styles.imageStyle}
-                            source={this.props.imageUri}/>
+                            source={{uri:this.props.imageUri}}
+                            resizeMode="contain"
+                            resizeMethod="resize"/>
                     </View>
                     <Right
                         style={styles.rightStyle}>
