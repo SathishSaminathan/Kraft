@@ -14,10 +14,10 @@ class ImagePicker extends Component {
         }
     }
 
-     componentWillReceiveProps(nextProps){
-         this.setState({
-             productImages:nextProps.productImage
-         })
+     resetImage(){
+        this.setState({
+            pickedImages:images.uploadIcon
+        })
      }
 
     pickedImageHandler=()=>{

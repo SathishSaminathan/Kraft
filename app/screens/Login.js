@@ -31,9 +31,6 @@ class Login extends Component {
     loginHandler=(userFirstName)=>{
         this.refs.emailInput.blur();
         this.refs.passwordInput.blur();
-        this.setState({
-            loader:true
-        })
         this.props.loginAction(userFirstName);
         this.props.navigation.navigate("Home")
     }
@@ -95,7 +92,7 @@ class Login extends Component {
                     </View>
                     <TouchableOpacity
                         style={styles.loginButton}
-                        onPress={()=>{this.loginHandler(this.state.email)}}
+                        onPress={()=>{()=>{this.loginHandler(this.state.email)}}}
                     >
                         <Text style={styles.loginText}>Login</Text>
                     </TouchableOpacity>
@@ -117,7 +114,7 @@ class Login extends Component {
                     </View>                    
                     <TouchableOpacity
                         style={styles.skipButton}
-                        onPress={()=>{this.props.navigation.navigate("Home");this.setState({loader:true})}}
+                        onPress={()=>{this.props.navigation.navigate("Home")}}
                     >
                         <Text style={styles.SkipText}>Skip to Home</Text>
                     </TouchableOpacity>
@@ -149,7 +146,6 @@ const styles = StyleSheet.create({
         borderRadius:25,
         margin:15,
         paddingHorizontal:24,
-        // justifyContent:"space-around",
         borderColor:colors.BUTTON_PINK,
         borderWidth:1
     },
@@ -158,7 +154,6 @@ const styles = StyleSheet.create({
         width:"10%"
     },
     textBox:{
-        // backgroundColor:"white",
         color:"white",
         fontSize:colors.SMALL,
         width:"80%",
@@ -197,7 +192,6 @@ const styles = StyleSheet.create({
         color:colors.SITE_GRAY1
     },
     createAccountStyle:{
-        // backgroundColor:"red",
         flexDirection:"row",
         paddingHorizontal:3,
         margin:15,

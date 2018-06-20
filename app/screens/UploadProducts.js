@@ -10,8 +10,7 @@ import customStyles from "../assets/styles/styles";
 import colorFonts from "../assets/styles/common";
 import images from "../assets/img/image";
 import ImagePicker from "../components/ImagePicker";
-import FloatingLabelInput from "../components/FloatingLabelInput";
-import { UPLOAD_PRODUCT } from '../store/actions/actionTypes';
+import Loader from "../components/Loader";
 
 const { width, height} = Dimensions.get("window");
 
@@ -19,7 +18,13 @@ const { width, height} = Dimensions.get("window");
 class UploadProducts extends Component {
 
     static navigationOptions={
-        header:null
+        header:null,
+        drawerIcon:(
+            <FontAwesome
+                style={{fontSize:colorFonts.MEDIUM,color:colorFonts.SITE_GRAY1}}
+                name="upload"
+            />
+        )
     }
 
     constructor(props){
@@ -28,20 +33,27 @@ class UploadProducts extends Component {
             productName:"",
             productPrice:"",
             productDescription:"",
-            catagory: undefined,
+            productCatagory: undefined,
             productImage:{
                 value:null
             }
         }
     }
 
-    uploadHandler = (productName, productImage)=>{
-        this.props.uploadAction(productName, productImage);
+    uploadHandler = (productName,productDescription, productPrice, productCatagory, productImage)=>{
+        this.refs.productName.blur();
+        this.refs.productDescription.blur();
+        this.refs.productPrice.blur();
+        this.refs.productName.clear();
+        this.refs.productDescription.clear();
+        this.refs.productPrice.clear();
+        this.props.uploadAction(productName, productDescription, productPrice, productCatagory, productImage);
+        this.refs.child.resetImage();
     }
 
     onValueChange(value) {
         this.setState({
-          catagory: value
+          productCatagory: value
         });
     }
 
@@ -67,7 +79,7 @@ class UploadProducts extends Component {
                             <View
                                 style={styles.imageUploadArea} 
                             >
-                                <ImagePicker productImage={this.props.productImage} onImagePicked={this.imagePickerHandler}/>
+                                <ImagePicker ref='child' {...this.props} productImage={images.uploadIcon} onImagePicked={this.imagePickerHandler}/>
                             </View>
                         </Content>  
                         <Content>
@@ -87,9 +99,13 @@ class UploadProducts extends Component {
                                         style={styles.iconInput}
                                     >
                                         <TextInput 
+                                            ref="productName"
                                             style={styles.textInputStyle}
                                             placeholder="Product Name"
                                             onChangeText={(productName)=>{this.setState({productName})}}
+                                            onSubmitEditing={()=>{this.refs.productDescription.focus()}}
+                                            returnKeyType="next"
+                                            blurOnSubmit={false}
                                         />
                                     </View>
                                     {/* <Icon name="call"/> */}
@@ -109,8 +125,12 @@ class UploadProducts extends Component {
                                         style={styles.iconInput}
                                     >
                                         <TextInput 
+                                            ref="productDescription"
                                             style={styles.textInputStyle}
-                                            placeholder="Product Discription"
+                                            placeholder="Product Description"
+                                            onSubmitEditing={()=>{this.refs.productPrice.focus()}}
+                                            returnKeyType="next"
+                                            blurOnSubmit={false}
                                         />
                                     </View>
                                     {/* <Icon name="call"/> */}
@@ -134,9 +154,12 @@ class UploadProducts extends Component {
                                         style={styles.iconInput}
                                     >
                                         <TextInput 
+                                            ref="productPrice"
                                             style={styles.textInputStyle}
                                             placeholder="Product Price"
-                                            keyboardType="numeric"
+                                            keyboardType="phone-pad"
+                                            returnKeyType="done"
+                                            blurOnSubmit
                                         />
                                     </View>
                                     {/* <Icon name="call"/> */}
@@ -157,7 +180,7 @@ class UploadProducts extends Component {
                                     >                                     
                                         <Picker
                                             itemStyle={{fontSize:30}}
-                                            selectedValue={this.state.catagory}
+                                            selectedValue={this.state.productCatagory}
                                             style={{ height: 50, width: 100, color:"grey" }}
                                             onValueChange={(itemValue, itemIndex) => this.setState({catagory: itemValue})}>
                                             <Picker.Item label="Bangles" value="bangle" />
@@ -170,14 +193,15 @@ class UploadProducts extends Component {
                         </Card>
                         </Content>              
                     </ImageBackground>
-                <TouchableOpacity
-                    onPress={()=>{this.uploadHandler(this.state.productName, this.state.image)}}
+                <TouchableOpacity                    
+                    onPress={()=>{this.uploadHandler(this.state.productName, this.state.productDescription, this.state.productPrice, this.state.productCatagory, this.state.image, )}}
                 >
                     {/* <Image  
                         style={styles.logoStyle}
                         source={images.kraftLogo}/> */}
                     <Text style={customStyles.successButton}>Upload Product</Text>
                 </TouchableOpacity>
+                {this.props.isLoading && <Loader />}
             </Container>
         );
     }
@@ -236,14 +260,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        userFirstNames:state.logIn.userFirstName,
-        productImage: state.logIn.productImage
+        productImage: state.logIn.productImage,
+        isLoading : state.ui.isLoading
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-            uploadAction: (productName, productImage) => dispatch(uploadProduct(productName, productImage))
+            uploadAction: (productName, productDescription, productPrice, productCatagory, productImage) => dispatch(uploadProduct(productName, productImage))
         };
     };
 //make this component available to the app
