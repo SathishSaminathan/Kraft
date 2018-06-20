@@ -5,7 +5,7 @@ import { DrawerNavigator, DrawerItems } from "react-navigation";
 import { Container, Content, Header, Body, Icon } from "native-base";
 
 import images from "../assets/img/image";
-import colors from "../assets/styles/common";
+import colorFonts from "../assets/styles/common";
 import Home from "../screens/Home";
 import UploadProducts from "../screens/UploadProducts";
 
@@ -13,9 +13,9 @@ import UploadProducts from "../screens/UploadProducts";
 const CustomDrawerContent =(props)=>(
     <Container>
         <Header 
-            style={{height:200, backgroundColor: colors.COLOR_PRIMARY}}>
+            style={{height:200, backgroundColor: colorFonts.COLOR_PRIMARY}}>
             <StatusBar 
-                backgroundColor={colors.COLOR_PRIMARY}
+                backgroundColor={colorFonts.COLOR_PRIMARY}
                 barStyle="light-content"
             />
             <Body
@@ -44,18 +44,31 @@ class Sidemenu extends Component{
         );
     }
 }
-const AppDrawer = DrawerNavigator({
-    Home:{
-        screen:Home
+const AppDrawer = DrawerNavigator(
+    {
+        Home:{
+            screen:Home
+        },
+        "Upload Products":{
+            screen:UploadProducts
+        },
     },
-    "Upload Products":{
-        screen:UploadProducts
-    }
-},
-{
-    initialRouteName:"Home",
-    contentComponent:CustomDrawerContent
-})
+    // {
+    //   contentOptions: {
+    //       activeTintColor: '#f00',
+    //       activeBackgroundColor : '#f9f9f9',
+    //       inactiveBackgroundColor : '#fcfcfc',
+    //       labelStyle:{
+    //           fontFamily:"vincHand",
+    //           fontWeight: 'normal',
+    //           fontSize:colorFonts.MEDIUM
+    //       }
+    //     }
+    // },
+    {
+        initialRouteName:"Home",
+        contentComponent:CustomDrawerContent
+    })
 
 
 const styles = StyleSheet.create({

@@ -7,6 +7,9 @@ const initialState = {
     userLastName:"Saminathan",
     profileImage:images.drawerImage,
     productName:"",
+    productDescription:"",
+    productPrice:"",
+    productCatagory:"",
     productImage:images.uploadIcon
 }
 
@@ -37,7 +40,10 @@ const reducer = (state = initialState, action) => {
         return{
             ...state,
             productName:action.productName,
-            image:action.productImage.uri
+            image:action.productImage.uri,
+            productDescription:productDescription,
+            productPrice:productPrice,
+            productCatagory:productCatagory
         }
         default:
             return state;

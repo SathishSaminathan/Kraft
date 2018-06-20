@@ -10,14 +10,20 @@ import RecommendationsCards from "../components/RecommendationsCards";
 import Loader from "../components/Loader";
 import images from "../assets/img/image";
 import customStyles from "../assets/styles/styles";
-import colors from "../assets/styles/common";
+import colorFonts from "../assets/styles/common";
 import SpeechAndroid from 'react-native-android-voice';
 
 // create a component
 class Home extends Component {
 
     static navigationOptions = {
-        header:null
+        header:null,
+        drawerIcon:(
+            <Icon                 
+                style={{fontSize:colorFonts.MEDIUM,color:colorFonts.SITE_GRAY1}}
+                name="ios-home"
+            />
+        )
     }
 
     constructor(props){
@@ -168,7 +174,7 @@ class Home extends Component {
                         <Header 
                             style={styles.modalHeaderStyle}>
                             <StatusBar 
-                                backgroundColor={colors.COLOR_PRIMARY_PINK}
+                                backgroundColor={colorFonts.COLOR_PRIMARY_PINK}
                                 barStyle="light-content"
                             />
                             <Left style={{flexDirection:"row",flex:0.5}}>
@@ -226,7 +232,7 @@ class Home extends Component {
                 </Modal>
                 <Header style={styles.headerStyle}>
                     <StatusBar 
-                        backgroundColor={colors.COLOR_PRIMARY}
+                        backgroundColor={colorFonts.COLOR_PRIMARY}
                         barStyle="light-content"
                         translucent={false}
                     />
@@ -384,7 +390,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2c3e50',
     },
     headerStyle:{
-        backgroundColor:colors.COLOR_PRIMARY,
+        backgroundColor:colorFonts.COLOR_PRIMARY,
         height:90,
         borderBottomColor:"#757575"
     },
@@ -395,7 +401,7 @@ const styles = StyleSheet.create({
         position:"absolute",
         top:90,
         height:70,
-        backgroundColor:colors.COLOR_PRIMARY,
+        backgroundColor:colorFonts.COLOR_PRIMARY,
         left:0,
         right:0,
         flexDirection:"row",
@@ -438,7 +444,7 @@ const styles = StyleSheet.create({
         elevation:2
     },
     modalHeaderStyle:{
-        backgroundColor:colors.COLOR_PRIMARY,
+        backgroundColor:colorFonts.COLOR_PRIMARY,
         height:90,
         borderWidth:1,
         borderBottomColor:"#757575"

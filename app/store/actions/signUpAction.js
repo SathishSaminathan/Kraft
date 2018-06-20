@@ -5,6 +5,7 @@ import {
     ADDIMAGE,
     UPLOAD_PRODUCT
 } from "./actionTypes";
+import { uiStartLoading, uiStopLoading } from "../actions/index";
 
 export const signUp = (userFirstName) => {
     return {
@@ -34,7 +35,7 @@ export const addImage = (pickedImage) => {
     }
 }
 
-export const uploadProduct = (productName, productImage) => {
+export const uploadProduct = (productName, productImage, productDescription, productPrice, productCatagory) => {
     // return {
     //     type: ADDIMAGE,
     //     productName: productName,
@@ -42,6 +43,7 @@ export const uploadProduct = (productName, productImage) => {
     // }
 
     return dispatch => {
+        dispatch(uiStartLoading());
         fetch("https://us-central1-kraft-4d5f3.cloudfunctions.net/storeImage",{
             method:"POST",
             body: JSON.stringify({
@@ -49,7 +51,10 @@ export const uploadProduct = (productName, productImage) => {
             })
         })
         .then(res => res.json())
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            dispatch(uiStopLoading())
+        })
         .then((parsedRes) => {            
             const productData = {
                 productName: productName,
@@ -62,8 +67,12 @@ export const uploadProduct = (productName, productImage) => {
         })        
         .then(res => res.json())
         .then((parsedRes => {
-                console.log(parsedRes)
+                console.log(parsedRes);
+                dispatch(uiStopLoading());
         }))
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            dispatch(uiStopLoading())
+        })
     }
 }
