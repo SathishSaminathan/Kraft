@@ -128,6 +128,7 @@ class UploadProducts extends Component {
                                             ref="productDescription"
                                             style={styles.textInputStyle}
                                             placeholder="Product Description"
+                                            onChangeText={(productDescription)=>{this.setState({productDescription})}}
                                             onSubmitEditing={()=>{this.refs.productPrice.focus()}}
                                             returnKeyType="next"
                                             blurOnSubmit={false}
@@ -157,6 +158,7 @@ class UploadProducts extends Component {
                                             ref="productPrice"
                                             style={styles.textInputStyle}
                                             placeholder="Product Price"
+                                            onChangeText={(productPrice)=>{this.setState({productPrice})}}
                                             keyboardType="phone-pad"
                                             returnKeyType="done"
                                             blurOnSubmit
@@ -182,7 +184,7 @@ class UploadProducts extends Component {
                                             itemStyle={{fontSize:30}}
                                             selectedValue={this.state.productCatagory}
                                             style={{ height: 50, width: 100, color:"grey" }}
-                                            onValueChange={(itemValue, itemIndex) => this.setState({catagory: itemValue})}>
+                                            onValueChange={(itemValue, itemIndex) => this.setState({productCatagory: itemValue})}>
                                             <Picker.Item label="Bangles" value="bangle" />
                                             <Picker.Item label="Dress" value="dress" />
                                         </Picker>
@@ -267,7 +269,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return{
-            uploadAction: (productName, productDescription, productPrice, productCatagory, productImage) => dispatch(uploadProduct(productName, productImage))
+            uploadAction: (productName, productDescription, productPrice, productCatagory, productImage) => dispatch(uploadProduct(productName,productDescription, productPrice, productCatagory, productImage))
         };
     };
 //make this component available to the app

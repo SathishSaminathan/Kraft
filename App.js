@@ -31,12 +31,12 @@ const KraftAppStatckNavigation = StackNavigator({
   // SignUp:{
   //   screen: SignUp
   // },
-  // Home:{
-  //   screen: SideMenu
-  // },
-  UploadProducts:{
-    screen:UploadProducts
-  }
+  Home:{
+    screen: SideMenu
+  },
+  // UploadProducts:{
+  //   screen:UploadProducts
+  // }
 })
 
 const instructions = Platform.select({
