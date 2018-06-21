@@ -82,22 +82,24 @@ class UploadProducts extends Component {
                                 <ImagePicker ref='child' {...this.props} productImage={images.uploadIcon} onImagePicked={this.imagePickerHandler}/>
                             </View>
                         </Content>  
-                        <Content>
-                        <Card
-                            style={styles.cardStyle}    
+                        <Content 
+                            style={{flex:1, height:(height/2)-20, marginHorizontal:3}}
                         >
-                            <CardItem
-                                style={styles.cardItemStyle}
+                        <Card
+                            style={{flex:1,backgroundColor:"white", marginHorizontal:30}}
+                        >
+                            <View
+                                style={{flexDirection:"row"}}
                             >
                                 <View
-                                    style={{flexDirection:"row"}}
+                                      style={{width:width/1.7}}                          
                                 >
-                                    <Text 
-                                        style={styles.customLabel}
-                                    > PN </Text>
-                                    <View 
-                                        style={styles.iconInput}
+                                    <CardItem
+                                      style={styles.cardItemStyle}      
                                     >
+                                        <Text 
+                                            style={styles.customLabel}
+                                        > PN </Text>
                                         <TextInput 
                                             ref="productName"
                                             style={styles.textInputStyle}
@@ -107,91 +109,66 @@ class UploadProducts extends Component {
                                             returnKeyType="next"
                                             blurOnSubmit={false}
                                         />
-                                    </View>
-                                    {/* <Icon name="call"/> */}
-                                </View>
-                            </CardItem>
-
-                            <CardItem
-                                style={styles.cardItemStyle}
-                            >
-                                <View
-                                    style={{flexDirection:"row"}}
-                                >
-                                    <Text 
-                                        style={styles.customLabel}
-                                    > PD </Text>
-                                    <View 
-                                        style={styles.iconInput}
+                                    </CardItem>
+                                    <CardItem
+                                      style={styles.cardItemStyle}      
                                     >
+                                        <Text 
+                                            style={styles.customLabel}
+                                        > PD </Text>
                                         <TextInput 
                                             ref="productDescription"
-                                            style={styles.textInputStyle}
+                                            style={[styles.textInputStyle,{borderWidth:1,borderRadius:20}]}
                                             placeholder="Product Description"
                                             onChangeText={(productDescription)=>{this.setState({productDescription})}}
                                             onSubmitEditing={()=>{this.refs.productPrice.focus()}}
-                                            returnKeyType="next"
+                                            returnKeyType="done"
                                             blurOnSubmit={false}
+                                            multiline
+                                            numberOfLines={3}
+                                            maxHeight={50}
+                                            underlineColorAndroid="transparent"
                                         />
-                                    </View>
-                                    {/* <Icon name="call"/> */}
+                                    </CardItem> 
                                 </View>
-                            </CardItem>   
-
-                            <CardItem
-                                style={styles.cardItemStyle}
-                            >
                                 <View
-                                    style={{flexDirection:"row"}}
-                                >
-                                    {/* <Text 
-                                        style={styles.customLabel}
-                                    > PN </Text> */}
-                                    <FontAwesome 
-                                        style={[styles.customLabel,{padding:22,paddingLeft:25}]}
-                                        name="rupee"
-                                    />
-                                    <View 
-                                        style={styles.iconInput}
+                                      style={{width:width/3}}                          
+                                >         
+                                    <CardItem
+                                      style={styles.cardItemStyle}      
                                     >
+                                        <FontAwesome 
+                                            style={[styles.customLabel,{textAlign:"center"}]}
+                                            name="rupee"
+                                        />
                                         <TextInput 
                                             ref="productPrice"
-                                            style={styles.textInputStyle}
-                                            placeholder="Product Price"
+                                            style={[styles.textInputStyle, {width:width/3}]}
+                                            placeholder="Price"
                                             onChangeText={(productPrice)=>{this.setState({productPrice})}}
                                             keyboardType="phone-pad"
                                             returnKeyType="done"
                                             blurOnSubmit
                                         />
-                                    </View>
-                                    {/* <Icon name="call"/> */}
-                                </View>
-                            </CardItem>   
-
-                            <CardItem
-                                style={styles.cardItemStyle}
-                            >
-                                <View
-                                    style={{flexDirection:"row"}}
-                                >
-                                    <Text 
-                                        style={styles.customLabel}
-                                    > C </Text> 
-                                    <View
-                                        style={{padding:15}}
-                                    >                                     
+                                    </CardItem>                         
+                                    <CardItem
+                                      style={styles.cardItemStyle}      
+                                    >
+                                        <Text 
+                                            style={styles.customLabel}
+                                        > C </Text>                             
                                         <Picker
                                             itemStyle={{fontSize:30}}
                                             selectedValue={this.state.productCatagory}
-                                            style={{ height: 50, width: 100, color:"grey" }}
+                                            style={{ height: 50, width: 100, color:"grey", marginHorizontal:15 }}
                                             onValueChange={(itemValue, itemIndex) => this.setState({productCatagory: itemValue})}>
                                             <Picker.Item label="Bangles" value="bangle" />
                                             <Picker.Item label="Dress" value="dress" />
                                         </Picker>
-                                    </View>
-                                    {/* <Icon name="call"/> */}
+                                    </CardItem>
                                 </View>
-                            </CardItem>                       
+                            </View>
+                            
                         </Card>
                         </Content>              
                     </ImageBackground>
@@ -235,27 +212,26 @@ const styles = StyleSheet.create({
         backgroundColor:"transparent"
     },
     cardItemStyle:{
-        margin:10,
-        elevation:5
+        marginVertical:20
     },
     customLabel:{
         backgroundColor:colorFonts.COLOR_PRIMARY_PINK,
         color:"white",
-        width:60,
-        height:60,
-        fontSize:18,
-        borderRadius:30,
+        width:35,
+        height:35,
+        fontSize:14,
+        borderRadius:18,
         alignSelf:"center",
-        padding:15,
+        padding:5,
         fontFamily:"vincHand",
     },
     iconInput:{
         position:"relative"
     },
     textInputStyle:{
-        width:width/1.5,
-        marginLeft:10,
-        fontSize:24,
+        width:width/2.4,
+        marginLeft:5,
+        fontSize:14,
         fontFamily:'PTM55FT'
     }
 });
