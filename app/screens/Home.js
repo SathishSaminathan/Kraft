@@ -1,11 +1,12 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableHighlight, Modal, StatusBar,ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image,Dimensions, TouchableHighlight, Modal, StatusBar,ToastAndroid } from 'react-native';
 import { Container, Content, Left, Right, Header, Icon, Item, Card, CardItem, Button } from "native-base";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
 import { connect } from "react-redux";
 import { getProduct } from "../store/actions";
+import * as firebase from "firebase";
 
 import RecommendationsCards from "../components/RecommendationsCards";
 import Loader from "../components/Loader";
@@ -13,6 +14,8 @@ import images from "../assets/img/image";
 import customStyles from "../assets/styles/styles";
 import colorFonts from "../assets/styles/common";
 import SpeechAndroid from 'react-native-android-voice';
+
+const {width,height} = Dimensions.get("window");
 
 // create a component
 class Home extends Component {
@@ -110,9 +113,21 @@ class Home extends Component {
         };
     }   
 
+    componentWillMount(){
+        var that =this;
+        // this.props.onLoadProduct();
+        // alert("willMount")   
+        firebase.database().ref("/product1").on("child_added",function(){
+            that.props.onLoadProduct()
+        })   
+    }
     
     componentDidMount(){
-        this.props.onLoadProduct();
+        // alert("DidMount")
+        // var that =this;
+        // firebase.database().ref("/product1").on("child_added",function(){
+        //     that.props.onLoadProduct()
+        // })
     }
 
     componentWillReceiveProps(nextProps){
@@ -194,9 +209,9 @@ class Home extends Component {
                             <View style={styles.modalHeaderTextArea}>
                                 <Text style={styles.modalHeaderText}>Product Details</Text>
                             </View>
-                            {/* <Right style={{flex:0.5}}>
-                                <Icon style={styles.iconStyle} name="md-cart"/>
-                            </Right> */}
+                            <Right style={{flex:0.5}}>
+                                <Icon style={styles.iconStyle} name="ios-heart"/>
+                            </Right>
                         </Header>
                         <Content>
                             <View style={styles.modalImageArea}>
@@ -457,8 +472,8 @@ const styles = StyleSheet.create({
         borderBottomColor:"#dee0e2"
     },
     modalImageStyle:{
-        width:200,
-        height:200
+        width:width/1,
+        height:height-20
     },
     modalImageArea:{
         flex:1,
@@ -478,13 +493,14 @@ const styles = StyleSheet.create({
     modalHeaderTextArea:{
         flex:1,
         flexDirection:"column",
-        alignItems:"flex-start",
+        alignItems:"center",
         justifyContent:"space-around"
     },
     modalHeaderText:{
-        fontSize:20,
-        fontWeight:"bold",
-        color:"white"
+        fontSize:30,
+        color:"white",
+        fontFamily:"vincHand",
+        textAlign:"center"
     },
     buttonStyle:{
         backgroundColor:"red",

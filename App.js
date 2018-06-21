@@ -34,9 +34,9 @@ const KraftAppStatckNavigation = StackNavigator({
   Home:{
     screen: SideMenu
   },
-  // UploadProducts:{
-  //   screen:UploadProducts
-  // }
+  UploadProducts:{
+    screen:UploadProducts
+  }
 })
 
 const instructions = Platform.select({
@@ -48,8 +48,23 @@ const instructions = Platform.select({
 
 export default class App extends Component {
 
+  //Initialize firebase
+  initializeFirebase() {
+    const firebase = require("firebase");
+    const firebaseConfig = {
+      apiKey: "AIzaSyCC61D-A1l7ZOiMgHMXZcpauezKrwp1xKw",
+      authDomain: "kraft-4d5f3.firebaseapp.com",
+      databaseURL: "https://kraft-4d5f3.firebaseio.com",
+      projectId: "kraft-4d5f3",
+      storageBucket: "kraft-4d5f3.appspot.com",
+      messagingSenderId: "389313956104"
+    };  
+      firebase.initializeApp(firebaseConfig);
+  }
+
   componentWillMount(){
-    YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+    this.initializeFirebase();
+    YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader',"Setting a timer"]);
   }
   render() {
     return (

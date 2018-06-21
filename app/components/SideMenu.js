@@ -20,7 +20,7 @@ const CustomDrawerContent =(props)=>(
             />
             <Body
             style={{alignItems:"center"}}>
-                <Image style={styles.profileImageStyle} source={images.profileImage}/>
+                <Image style={styles.profileImageStyle} source={images.drawerImage}/>
             </Body>
         </Header>
         <Content>
