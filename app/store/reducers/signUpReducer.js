@@ -12,6 +12,12 @@ const initialState = {
     productCatagory:"",
     productImage:images.uploadIcon,
     product:[],
+    authData:{
+        email:"",
+        password:""
+    },
+    isSignedIn:false,
+    isloggedIn:false
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,12 +25,12 @@ const reducer = (state = initialState, action) => {
         case SIGN_UP:
             return{
                 ...state,
-                userFirstName:action.userDetails
+                isSignedIn: action.value
             }
         case LOGIN:
             return{
                 ...state,
-                userFirstName:action.userDetails
+                isloggedIn:action.value
             }
         case LOGOUT:
         
@@ -42,7 +48,7 @@ const reducer = (state = initialState, action) => {
             productDescription:action.productDescription,
             productPrice:action.productPrice,
             productCatagory:action.productCatagory
-        }
+            }
         case SET_PRODUCT:
             return{
                 ...state,

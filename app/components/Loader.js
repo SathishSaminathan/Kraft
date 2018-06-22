@@ -21,6 +21,8 @@ class Loader extends Component {
                     style={styles.container}
                 >
                 <StatusBar 
+                    backgroundColor="transparent"
+                    translucent
                     barStyle="light-content"
                 />
                     {/* <ImageBackground  

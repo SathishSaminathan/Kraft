@@ -123,11 +123,10 @@ class Home extends Component {
     }
     
     componentDidMount(){
-        // alert("DidMount")
-        // var that =this;
-        // firebase.database().ref("/product1").on("child_added",function(){
-        //     that.props.onLoadProduct()
-        // })
+        var that =this;
+        firebase.database().ref("/product").on("child_added",function(){
+            that.props.onLoadProduct()
+        })
     }
 
     componentWillReceiveProps(nextProps){
@@ -524,7 +523,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return{
-    signUpFun: (userFirstName) => dispatch(signUp(userFirstName)),
     onLoadProduct: () => dispatch(getProduct())
   };
 };

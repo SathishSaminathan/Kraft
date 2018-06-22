@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TextInput, Dimensions, TouchableOpacity,StatusBar } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TextInput, Dimensions, TouchableOpacity,StatusBar,ToastAndroid } from 'react-native';
 import { Icon } from "native-base";
 
 import images from "../assets/img/image";
@@ -8,7 +8,8 @@ import Loader from "../components/Loader";
 import colors from "../assets/styles/common";
 import customStyles from "../assets/styles/styles";
 import { connect } from "react-redux";
-import { login } from "../store/actions";
+import { signUp } from "../store/actions";
+import { LOGIN } from "../store/actions/actionTypes";
 
 const {width,height} = Dimensions.get("window");
 
@@ -28,11 +29,25 @@ class Login extends Component {
         header:null
     }
 
-    loginHandler=(userFirstName)=>{
+    componentWillReceiveProps(nextProps){
+        if(nextProps.isloggedIn){
+            ToastAndroid.showWithGravity(
+                "LoggedIn Successfully",
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+              );              
+            this.props.navigation.navigate("Home")
+        }
+    }
+
+    loginHandler=()=>{
         this.refs.emailInput.blur();
         this.refs.passwordInput.blur();
-        this.props.loginAction(userFirstName);
-        this.props.navigation.navigate("Home")
+        const authData={
+            email:this.state.email,
+            password:this.state.password
+        }
+        this.props.signUpFun(authData,LOGIN);
     }
 
     render() {
@@ -80,6 +95,7 @@ class Login extends Component {
                             underlineColorAndroid="transparent"
                             secureTextEntry={this.state.passwordShow?false:true}
                             maxLength={9}
+                            onChangeText={(password)=>this.setState({password})}
                             // value={this.props.userFirstNames}
                             returnKeyType="done"
                             placeholder="password"
@@ -92,7 +108,7 @@ class Login extends Component {
                     </View>
                     <TouchableOpacity
                         style={styles.loginButton}
-                        onPress={()=>{()=>{this.loginHandler(this.state.email)}}}
+                        onPress={this.loginHandler}
                     >
                         <Text style={styles.loginText}>Login</Text>
                     </TouchableOpacity>
@@ -119,7 +135,7 @@ class Login extends Component {
                         <Text style={styles.SkipText}>Skip to Home</Text>
                     </TouchableOpacity>
                 </View>               
-                {this.state.loader && <Loader />}
+                {this.props.isLoading && <Loader />}
             </ImageBackground>
         );
     }
@@ -208,13 +224,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        userFirstNames:state.logIn.userFirstName,
+        isloggedIn: state.logIn.isloggedIn,
+        isLoading : state.ui.isLoading,
     };
 };
 
 const mapDispatchToProps = dispatch => {
 return{
-        loginAction: (userFirstName) => dispatch(login(userFirstName))
+        signUpFun: (authData, authmode) => dispatch(signUp(authData, authmode))
     };
 };
 
