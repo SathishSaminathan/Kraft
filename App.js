@@ -22,21 +22,22 @@ import Loader from "./app/components/Loader";
 import UploadProducts from "./app/screens/UploadProducts";
 
 const KraftAppStatckNavigation = StackNavigator({
-  // Login:{
-  //   screen:Login
-  // },
+
   // Loader:{
   //   screen:Loader
   // },
-  // SignUp:{
-  //   screen: SignUp
-  // },
+  SignUp:{
+    screen: SignUp
+  },  
+  Login:{
+    screen:Login
+  },
   Home:{
     screen: SideMenu
   },
-  UploadProducts:{
-    screen:UploadProducts
-  }
+  // UploadProducts:{
+  //   screen:UploadProducts
+  // }
 })
 
 const instructions = Platform.select({

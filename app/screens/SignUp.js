@@ -1,8 +1,11 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Animated, Dimensions, Keyboard, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Animated, Dimensions, Keyboard, Platform, StatusBar,ToastAndroid } from 'react-native';
 import * as Animatable from "react-native-animatable";
 import { Icon } from "native-base";
+import { connect } from "react-redux";
+import { signUp } from "../store/actions";
+import { SIGN_UP } from "../store/actions/actionTypes";
 
 import images from "../assets/img/image";
 import Loader from "../components/Loader";
@@ -17,7 +20,8 @@ class SignUp extends Component {
     constructor(props){
         super(props)
         this.state={
-            loader:true,
+            email:"",
+            password:"",
             placeholder:"Enter Your Email Address"
         }
     }
@@ -27,6 +31,9 @@ class SignUp extends Component {
     }
 
     componentWillMount(){
+        if(this.props.isSignedIn){
+            this.props.navigation.navigate("Home")            
+        }
         this.loginHeight = new Animated.Value(150);
 
         this.keyboardWDidShow= Keyboard.addListener("keyboardDidShow", this.keyboardDidShow)
@@ -38,10 +45,15 @@ class SignUp extends Component {
         this.passwordOpactity = new Animated.Value(0);
     }
 
-    componentDidMount(){
-        this.setState({
-            loader:false
-        })
+    componentWillReceiveProps(nextProps){
+        if(nextProps.isSignedIn){
+            ToastAndroid.showWithGravity(
+                "SignedIn Successfully",
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+              );
+            this.props.navigation.navigate("Home")
+        }
     }
 
     keyboardDidShow =(event) =>{
@@ -127,6 +139,15 @@ class SignUp extends Component {
         });     
     }
 
+    signUpHandler =()=>{
+        this.refs.password.blur();
+        const authData ={
+            email: this.state.email,
+            password: this.state.password
+        }
+        this.props.signUpFun(authData,SIGN_UP)
+    }
+
     render() { 
 
         const headerTextOpacity =this.loginHeight.interpolate({
@@ -176,7 +197,7 @@ class SignUp extends Component {
                 <Animated.View
                     style={[styles.forwardArrowStyle,{bottom:this.keyboardHeight,opacity:this.forwardArrowOpacity}]}>
                     <TouchableOpacity
-                        onPress={()=>this.props.navigation.navigate("Home")}
+                        onPress={this.signUpHandler}
                     >
                         <Icon 
                             name="md-arrow-forward" 
@@ -186,7 +207,7 @@ class SignUp extends Component {
                 </Animated.View>
 
                 <ImageBackground 
-                    source={images.loginBackground}
+                    source={images.loginBackground}    
                     style={styles.imageBackground}>
                     <Animatable.View 
                         style={styles.logoContentArea}
@@ -194,7 +215,11 @@ class SignUp extends Component {
                         iterationCount={1}>
                         <View style={styles.logoContent}>
                             {/* <Text style={styles.logoText}>Kraft</Text> */}
-                            <Image source={images.kraftLogo} style={{width:150,height:150}}/>
+                            <Image source={images.kraftLogo} 
+                                style={{width:150,height:150}}                            
+                                resizeMode="contain"
+                                resizeMethod="resize"
+                            />
                         </View>
                     </Animatable.View>
 
@@ -216,7 +241,10 @@ class SignUp extends Component {
                                     </Animated.Text>
                                     <Image 
                                         style={styles.indiaImage}
-                                        source={images.indiaImage}/>
+                                        source={images.indiaImage}
+                                        resizeMode="contain"
+                                        resizeMethod="resize"
+                                    />
                                     <Animated.View 
                                         style={{flex:1, flexDirection:"row", alignItems:"center", borderBottomWidth:this.borderBottomWidth}}
                                         pointerEvents="none">
@@ -229,6 +257,7 @@ class SignUp extends Component {
                                             returnKeyType="next"
                                             keyboardType="email-address"
                                             blurOnSubmit={false}
+                                            onChangeText={(email)=>{this.setState({email})}}
                                             onSubmitEditing={()=>this.refs.password.focus()}
                                         />
                                     </Animated.View> 
@@ -236,7 +265,10 @@ class SignUp extends Component {
                                 <Animated.View style={[styles.passwordInput,{opacity:this.passwordOpactity}]}>
                                     <Image 
                                         style={styles.passwordImage}
-                                        source={images.passwordImage}/>
+                                        source={images.passwordImage}
+                                        resizeMode="contain"
+                                        resizeMethod="resize"
+                                    />
                                     <Animated.View 
                                         style={{flex:1, flexDirection:"row", alignItems:"center", borderBottomWidth:this.borderBottomWidth}}
                                         pointerEvents="none">
@@ -248,6 +280,7 @@ class SignUp extends Component {
                                             underlineColorAndroid="transparent"
                                             returnKeyType="done"
                                             secureTextEntry
+                                            onChangeText={(password)=>{this.setState({password})}}
                                         />
                                     </Animated.View> 
                                 </Animated.View>
@@ -285,7 +318,7 @@ class SignUp extends Component {
                         </View>
                     </Animatable.View>
                 </ImageBackground>                
-                {this.state.loader && <Loader />}
+                {this.props.isLoading && <Loader />}
             </View>
         );
     }
@@ -393,6 +426,19 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = (state) => {
+    return {
+        isLoading : state.ui.isLoading,
+        isSignedIn: state.logIn.isSignedIn
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return{
+      signUpFun: (authData, authmode) => dispatch(signUp(authData, authmode))
+    };
+  };
+  
 //make this component available to the app
-export default SignUp;
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
  
